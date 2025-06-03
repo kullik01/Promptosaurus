@@ -1,5 +1,5 @@
 import "./App.css";
-import PromptosaurusUI from "./PromptosaurusUI";
+import PromptosaurusUI from "./components/PromptosaurusUI";
 
 function App() {
   return (

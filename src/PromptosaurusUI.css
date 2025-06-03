@@ -11,6 +11,18 @@
   --button-hover-bg: #1E6FE6;
   --textarea-text-color: #333333;
   --textarea-focus-bg: #fafafa;
+  --sidebar-bg: #333333;
+  --sidebar-text: #FFFFFF;
+  --sidebar-hover: #444444;
+  --sidebar-active: #555555;
+  --notes-list-bg: #FFFFFF;
+  --notes-list-border: #E5E5E5;
+  --notes-list-active: #F0F0F0;
+  --notes-list-text: #333333;
+  --notes-list-secondary: #777777;
+  --main-content-bg: #FFFFFF;
+  --table-border: #E5E5E5;
+  --tag-bg: #F0F0F0;
 }
 
 body {
@@ -22,189 +34,545 @@ body {
   min-height: 100vh;
   width: 100%;
   height: 100%;
-  overflow: auto; /* Allow body to scroll if content overflows */
+  overflow: hidden; /* Prevent scrolling on body */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.promptosaurus-container {
+/* Notes App Container - Main layout */
+.notes-app-container {
+  display: flex;
+  height: 100vh;
   width: 100%;
-  min-height: 100vh; /* Use min-height to allow content to push height */
-  margin: 0 auto;
-  padding: 50px;
-  font-family: 'Roboto', sans-serif;
-  background-color: var(--background-color);
-  position: relative;
-  box-sizing: border-box;
-  overflow-y: auto; /* Enable vertical scrolling */
+  overflow: hidden;
+}
 
+/* Navigation Sidebar */
+.navigation-sidebar {
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  height: 100vh;
+  overflow-y: auto;
+  width: 200px;
+  min-width: 200px;
+  transition: width 0.3s ease, min-width 0.3s ease;
+}
+
+/* Update sidebar header without window controls */
+.sidebar-header {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 30px;
+}
+
+/* Toggle buttons */
+.toggle-sidebar-btn,
+.toggle-notes-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-sidebar-btn:hover,
+.toggle-notes-btn:hover {
+  background-color: var(--hover-color);
+  border-radius: 4px;
+}
+
+.sidebar-nav {
+  padding: 10px 0;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-nav li {
+  margin: 2px 0;
+}
+
+.sidebar-nav button {
+  background: none;
+  border: none;
+  color: var(--sidebar-text);
+  padding: 8px 15px;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.sidebar-nav button:hover {
+  background-color: var(--sidebar-hover);
+}
+
+.sidebar-nav li.active button {
+  background-color: var(--sidebar-active);
+}
+
+.nav-icon {
+  margin-right: 10px;
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+}
+
+.sidebar-section {
+  margin-top: 15px;
+  padding: 0 15px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+  cursor: pointer;
+}
+
+.section-icon {
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.section-title {
+  flex-grow: 1;
+}
+
+.section-toggle {
+  background: none;
+  border: none;
+  color: var(--sidebar-text);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Notes List Section */
+.notes-list-section {
+  background-color: var(--notes-list-bg);
+  border-right: 1px solid var(--notes-list-border);
+  height: 100vh;
+  overflow-y: auto;
+  width: 250px;
+  min-width: 250px;
+  transition: width 0.3s ease, min-width 0.3s ease;
+}
+
+.notes-list-header {
+  padding: 15px;
+  border-bottom: 1px solid var(--notes-list-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notes-list-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.notes-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.action-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.action-button:hover {
+  background-color: var(--hover-color);
+}
+
+.notes-list {
+  padding: 0;
+}
+
+.note-item {
+  padding: 15px;
+  border-bottom: 1px solid var(--notes-list-border);
+  cursor: pointer;
+}
+
+.note-item:hover {
+  background-color: var(--hover-color);
+}
+
+.note-item.active {
+  background-color: var(--notes-list-active);
+}
+
+.note-title {
+  font-weight: 500;
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+
+.note-preview {
+  font-size: 13px;
+  color: var(--notes-list-secondary);
+  margin-bottom: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.note-image {
+  margin-bottom: 10px;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 80px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+.note-date {
+  font-size: 12px;
+  color: var(--notes-list-secondary);
+}
+
+/* Main Content Section */
+.main-content-section {
+  background-color: var(--main-content-bg);
+  height: 100vh;
+  overflow-y: auto;
+  flex: 1;
   display: flex;
   flex-direction: column;
+}
+
+/* Collapsible sections styles */
+.nav-collapsed .navigation-sidebar {
+  width: 50px;
+  min-width: 50px;
+}
+
+.nav-collapsed .nav-text {
+  display: none;
+}
+
+.nav-collapsed .sidebar-nav button {
+  justify-content: center;
+  padding: 8px 5px;
+}
+
+.notes-collapsed .notes-list-section {
+  width: 50px;
+  min-width: 50px;
+  overflow: hidden;
+}
+
+.notes-collapsed .notes-list,
+.notes-collapsed .notes-list-header h2 {
+  display: none;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .navigation-sidebar {
+    width: 180px;
+    min-width: 180px;
+  }
+  
+  .notes-list-section {
+    width: 220px;
+    min-width: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navigation-sidebar {
+    width: 50px;
+    min-width: 50px;
+  }
+  
+  .nav-text {
+    display: none;
+  }
+  
+  .sidebar-nav button {
+    justify-content: center;
+    padding: 8px 5px;
+  }
+  
+  .notes-list-section {
+    width: 200px;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 500px) {
+  .notes-app-container {
+    flex-direction: column;
+  }
+  
+  .navigation-sidebar {
+    width: 100%;
+    min-width: 100%;
+    height: auto;
+    max-height: 50px;
+    overflow: hidden;
+  }
+  
+  .notes-list-section {
+    width: 100%;
+    min-width: 100%;
+    height: auto;
+    max-height: 30vh;
+  }
+  
+  .main-content-section {
+    height: auto;
+    flex: 1;
+  }
+}
+
+/* Add styles for collapsible sections */
+.nav-collapsed .navigation-sidebar {
+  width: 50px;
+  min-width: 50px;
+}
+
+.nav-collapsed .nav-text {
+  display: none;
+}
+
+.nav-collapsed .sidebar-nav button {
+  justify-content: center;
+  padding: 8px 5px;
+}
+
+.notes-collapsed .notes-list-section {
+  width: 50px;
+  min-width: 50px;
+  overflow: hidden;
+}
+
+.notes-collapsed .notes-list,
+.notes-collapsed .notes-list-header h2 {
+  display: none;
+}
+
+/* Toggle buttons */
+.toggle-sidebar-btn,
+.toggle-notes-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 5px;
+  display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+}
+
+.toggle-sidebar-btn:hover,
+.toggle-notes-btn:hover {
+  background-color: var(--hover-color);
+  border-radius: 4px;
+}
+
+/* Update sidebar header without window controls */
+.sidebar-header {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 30px;
+}
+
+/* Update notes-app-container to use flex instead of grid for better collapsing */
+.notes-app-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.navigation-sidebar {
+  width: 200px;
+  min-width: 200px;
+  transition: width 0.3s ease, min-width 0.3s ease;
+}
+
+.notes-list-section {
+  width: 250px;
+  min-width: 250px;
+  transition: width 0.3s ease, min-width 0.3s ease;
+}
+
+.main-content-section {
+  flex: 1;
+}
+
+/* Update responsive styles for the new layout */
+@media (max-width: 1024px) {
+  .navigation-sidebar {
+    width: 180px;
+    min-width: 180px;
+  }
+  
+  .notes-list-section {
+    width: 220px;
+    min-width: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navigation-sidebar {
+    width: 50px;
+    min-width: 50px;
+  }
+  
+  .nav-text {
+    display: none;
+  }
+  
+  .sidebar-nav button {
+    justify-content: center;
+    padding: 8px 5px;
+  }
+  
+  .notes-list-section {
+    width: 200px;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 500px) {
+  .notes-app-container {
+    flex-direction: column;
+  }
+  
+  .navigation-sidebar {
+    width: 100%;
+    min-width: 100%;
+    height: auto;
+    max-height: 50px;
+    overflow: hidden;
+  }
+  
+  .notes-list-section {
+    width: 100%;
+    min-width: 100%;
+    height: auto;
+    max-height: 30vh;
+  }
+  
+  .main-content-section {
+    height: auto;
+    flex: 1;
+  }
+}
+
+/* Add the original card styling */
+.promptosaurus-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .promptosaurus-title {
-  font-size: 26px;
-  font-weight: 800;
   text-align: center;
-  margin-bottom: 30px;
-  width: 100%;
-  letter-spacing: 0.5px;
   color: var(--text-color);
-  position: relative;
+  margin-bottom: 20px;
 }
 
 .promptosaurus-card {
   background-color: var(--card-background);
   border-radius: var(--border-radius);
-  padding: 0;
-  width: 100%;
-  flex-grow: 1;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 6px var(--shadow-color);
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-  position: relative;
-  display: flex;
-  flex-direction: column;
+  box-shadow: 0 2px 8px var(--shadow-color);
+  padding: 15px;
+  transition: box-shadow 0.3s ease;
 }
 
 .promptosaurus-card:hover {
-  box-shadow: 0 4px 8px var(--shadow-color);
-  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 .promptosaurus-card-label {
-  font-size: 14px;
-  font-weight: 400;
-  position: absolute;
-  top: 0;
-  left: 10px;
-  padding: 6px 0;
-  line-height: 1.21em;
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
   color: var(--text-color);
-  margin-bottom: 10px; /* Increased spacing */
 }
 
 .promptosaurus-textarea {
   width: 100%;
-  flex-grow: 1;
-  margin-top: 25px;
-  resize: none;
-  border: none;
-  padding: 0 10px;
-  box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
   font-size: 14px;
-  outline: none;
-  background-color: transparent;
-  line-height: 1.5;
   color: var(--textarea-text-color);
-  transition: background-color 0.2s ease;
-  max-height: calc(14px * 1.5 * 10); /* Approx 10 rows (font-size * line-height * rows) */
-  overflow-y: auto;
+  resize: vertical;
+  min-height: 40px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  box-sizing: border-box;
+  font-family: inherit;
 }
 
 .promptosaurus-textarea:focus {
+  outline: none;
+  border-color: var(--button-bg);
   background-color: var(--textarea-focus-bg);
 }
 
 .promptosaurus-button {
   background-color: var(--button-bg);
-  border-radius: var(--border-radius);
-  padding: 9px 6px;
-  font-size: 14px;
-  font-weight: 400;
-  cursor: pointer;
-  border: none;
-  text-align: center;
-  margin-top: 20px;
   color: var(--button-text-color);
-  box-shadow: 0 2px 6px var(--shadow-color);
-  transition: all 0.2s ease;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
   align-self: center;
-  margin-right: 0;
 }
 
 .promptosaurus-button:hover {
   background-color: var(--button-hover-bg);
-  box-shadow: 0 4px 8px var(--shadow-color);
-  transform: translateY(-1px);
-}
-
-.promptosaurus-button:active {
-  transform: translateY(1px);
-  box-shadow: 0 1px 3px var(--shadow-color);
-}
-
-/* Card positions are now handled by flexbox */
-
-/* Scrollbar styles */
-.promptosaurus-textarea::-webkit-scrollbar,
-.promptosaurus-container::-webkit-scrollbar {
-  width: 8px;
-}
-
-.promptosaurus-textarea::-webkit-scrollbar-track,
-.promptosaurus-container::-webkit-scrollbar-track {
-  background: var(--background-color);
-  border-radius: 10px;
-}
-
-.promptosaurus-textarea::-webkit-scrollbar-thumb,
-.promptosaurus-container::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px;
-}
-
-.promptosaurus-textarea::-webkit-scrollbar-thumb:hover,
-.promptosaurus-container::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/* Responsive styles */
-@media (max-width: 500px) {
-  .promptosaurus-container {
-    padding: 20px;
-  }
-  
-  .promptosaurus-card {
-      width: 95%;
-  }
-  
-  .promptosaurus-button {
-    margin-right: 0;
-  }
 }
 
 .popup-message {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  left: auto;
-  transform: none;
-  background-color: #f0f0f0; /* Light background color */
-  color: #333333; /* Dark text color */
-  padding: 10px 15px;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 20px;
   border-radius: 4px;
   z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Lighter shadow */
-  opacity: 0;
-  animation: slideInFadeOut 3s forwards;
-  font-size: 0.9em;
-  font-weight: normal;
-  text-align: left;
-  min-width: 200px;
-  max-width: 300px;
 }
 
-@keyframes slideInFadeOut {
-  0% { opacity: 0; transform: translateX(100%); }
-  10% { opacity: 1; transform: translateX(0); }
-  90% { opacity: 1; transform: translateX(0); }
-  100% { opacity: 0; transform: translateX(100%); }
-}
-.convert-button {
-  padding: 10px 20px; /* Increase padding to make the button bigger */
-  font-size: 1em; /* Adjust font size if necessary */
-  min-width: 180px; /* Ensure minimum width to fit text */
-  /* Other styles remain */
+/* Make the embedded Promptosaurus UI use the original styling */
+.promptosaurus-embedded {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
 }
