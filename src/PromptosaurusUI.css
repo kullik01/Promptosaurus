@@ -1,0 +1,210 @@
+/* PromptosaurusUI.css */
+:root {
+  --background-color: #F5F5F5;
+  --card-background: #FFFFFF;
+  --text-color: #000000;
+  --border-radius: 7px;
+  --shadow-color: rgba(0, 0, 0, 0.05);
+  --hover-color: #f0f0f0;
+  --button-text-color: #FFFFFF;
+  --button-bg: #2D7FF9;
+  --button-hover-bg: #1E6FE6;
+  --textarea-text-color: #333333;
+  --textarea-focus-bg: #fafafa;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Allow body to scroll if content overflows */
+}
+
+.promptosaurus-container {
+  width: 100%;
+  min-height: 100vh; /* Use min-height to allow content to push height */
+  margin: 0 auto;
+  padding: 50px;
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--background-color);
+  position: relative;
+  box-sizing: border-box;
+  overflow-y: auto; /* Enable vertical scrolling */
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.promptosaurus-title {
+  font-size: 26px;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 30px;
+  width: 100%;
+  letter-spacing: 0.5px;
+  color: var(--text-color);
+  position: relative;
+}
+
+.promptosaurus-card {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  padding: 0;
+  width: 100%;
+  flex-grow: 1;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 6px var(--shadow-color);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.promptosaurus-card:hover {
+  box-shadow: 0 4px 8px var(--shadow-color);
+  transform: translateY(-1px);
+}
+
+.promptosaurus-card-label {
+  font-size: 14px;
+  font-weight: 400;
+  position: absolute;
+  top: 0;
+  left: 10px;
+  padding: 6px 0;
+  line-height: 1.21em;
+  color: var(--text-color);
+  margin-bottom: 10px; /* Increased spacing */
+}
+
+.promptosaurus-textarea {
+  width: 100%;
+  flex-grow: 1;
+  margin-top: 25px;
+  resize: none;
+  border: none;
+  padding: 0 10px;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  outline: none;
+  background-color: transparent;
+  line-height: 1.5;
+  color: var(--textarea-text-color);
+  transition: background-color 0.2s ease;
+  max-height: calc(14px * 1.5 * 10); /* Approx 10 rows (font-size * line-height * rows) */
+  overflow-y: auto;
+}
+
+.promptosaurus-textarea:focus {
+  background-color: var(--textarea-focus-bg);
+}
+
+.promptosaurus-button {
+  background-color: var(--button-bg);
+  border-radius: var(--border-radius);
+  padding: 9px 6px;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  margin-top: 20px;
+  color: var(--button-text-color);
+  box-shadow: 0 2px 6px var(--shadow-color);
+  transition: all 0.2s ease;
+  align-self: center;
+  margin-right: 0;
+}
+
+.promptosaurus-button:hover {
+  background-color: var(--button-hover-bg);
+  box-shadow: 0 4px 8px var(--shadow-color);
+  transform: translateY(-1px);
+}
+
+.promptosaurus-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 3px var(--shadow-color);
+}
+
+/* Card positions are now handled by flexbox */
+
+/* Scrollbar styles */
+.promptosaurus-textarea::-webkit-scrollbar,
+.promptosaurus-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.promptosaurus-textarea::-webkit-scrollbar-track,
+.promptosaurus-container::-webkit-scrollbar-track {
+  background: var(--background-color);
+  border-radius: 10px;
+}
+
+.promptosaurus-textarea::-webkit-scrollbar-thumb,
+.promptosaurus-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.promptosaurus-textarea::-webkit-scrollbar-thumb:hover,
+.promptosaurus-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Responsive styles */
+@media (max-width: 500px) {
+  .promptosaurus-container {
+    padding: 20px;
+  }
+  
+  .promptosaurus-card {
+      width: 95%;
+  }
+  
+  .promptosaurus-button {
+    margin-right: 0;
+  }
+}
+
+.popup-message {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  left: auto;
+  transform: none;
+  background-color: #f0f0f0; /* Light background color */
+  color: #333333; /* Dark text color */
+  padding: 10px 15px;
+  border-radius: 4px;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Lighter shadow */
+  opacity: 0;
+  animation: slideInFadeOut 3s forwards;
+  font-size: 0.9em;
+  font-weight: normal;
+  text-align: left;
+  min-width: 200px;
+  max-width: 300px;
+}
+
+@keyframes slideInFadeOut {
+  0% { opacity: 0; transform: translateX(100%); }
+  10% { opacity: 1; transform: translateX(0); }
+  90% { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(100%); }
+}
+.convert-button {
+  padding: 10px 20px; /* Increase padding to make the button bigger */
+  font-size: 1em; /* Adjust font size if necessary */
+  min-width: 180px; /* Ensure minimum width to fit text */
+  /* Other styles remain */
+}
