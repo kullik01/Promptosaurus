@@ -74,6 +74,45 @@ impl PromptStyle for MarkdownPromptStyle {
     }
 }
 
+/// Implementation of the YAML prompt style.
+pub struct YamlPromptStyle;
+
+impl PromptStyle for YamlPromptStyle {
+    fn format(&self, input_map: &HashMap<String, String>, order: Option<Vec<&str>>) -> String {
+        let mut output = String::new();
+        
+        let element_order = order.unwrap_or_else(|| vec!["Role", "Task", "Context", "Constraints"]);
+        
+        for key in element_order {
+            if let Some(value) = input_map.get(key) {
+                if !value.trim().is_empty() {
+                    // Format key in lowercase for YAML convention
+                    let yaml_key = key.to_lowercase();
+                    
+                    // For multi-line values, use the YAML block scalar style with indentation
+                    if value.contains('\n') {
+                        output.push_str(&format!("{}: |\n", yaml_key));
+                        // Indent each line with two spaces
+                        for line in value.trim().lines() {
+                            output.push_str(&format!("  {}\n", line));
+                        }
+                    } else {
+                        // For single-line values, use simple key-value format
+                        output.push_str(&format!("{}: {}\n", yaml_key, value.trim()));
+                    }
+                }
+            }
+        }
+        
+        // Remove the last newline if it exists
+        if output.ends_with('\n') {
+            output.pop();
+        }
+        
+        output
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -130,5 +169,40 @@ mod tests {
         
         // The Task should come before Role in the output
         assert!(result.find("# Task").unwrap() < result.find("# Role").unwrap());
+    }
+    
+    #[test]
+    fn test_yaml_prompt_style() {
+        let style = YamlPromptStyle;
+        let mut input_map = HashMap::new();
+        
+        input_map.insert("Role".to_string(), "Educational content writer".to_string());
+        input_map.insert("Task".to_string(), "Explain photosynthesis".to_string());
+        
+        let result = style.format(&input_map, None);
+        
+        assert!(result.contains("role: Educational content writer"));
+        assert!(result.contains("task: Explain photosynthesis"));
+        
+        // Test with empty values
+        input_map.insert("Context".to_string(), "".to_string());
+        let result = style.format(&input_map, None);
+        assert!(!result.contains("context:"));
+        
+        // Test with custom order
+        let custom_order = vec!["Task", "Role"];
+        let result = style.format(&input_map, Some(custom_order));
+        
+        // The Task should come before Role in the output
+        assert!(result.find("task:").unwrap() < result.find("role:").unwrap());
+        
+        // Test with multi-line content
+        input_map.insert("Constraints".to_string(), "- Use simple language.\n- Include analogies.\n- Limit to 500 words.".to_string());
+        let result = style.format(&input_map, None);
+        
+        assert!(result.contains("constraints: |"));
+        assert!(result.contains("  - Use simple language."));
+        assert!(result.contains("  - Include analogies."));
+        assert!(result.contains("  - Limit to 500 words."));
     }
 }

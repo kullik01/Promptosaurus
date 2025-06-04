@@ -5,7 +5,7 @@
 mod prompt_styles;
 
 use std::collections::HashMap;
-use prompt_styles::{PromptStyle, XmlPromptStyle, MarkdownPromptStyle};
+use prompt_styles::{PromptStyle, XmlPromptStyle, MarkdownPromptStyle, YamlPromptStyle};
 use serde::{Deserialize, Serialize};
 
 /// Represents the available prompt style formats.
@@ -13,9 +13,9 @@ use serde::{Deserialize, Serialize};
 pub enum PromptFormat {
     Xml,
     Markdown,
+    Yaml,
     // Future formats can be added here
     // Json,
-    // Yaml,
 }
 
 impl Default for PromptFormat {
@@ -46,6 +46,7 @@ fn process_input(
     let prompt_style: Box<dyn PromptStyle> = match format {
         PromptFormat::Xml => Box::new(XmlPromptStyle),
         PromptFormat::Markdown => Box::new(MarkdownPromptStyle),
+        PromptFormat::Yaml => Box::new(YamlPromptStyle),
         // Add other formats as they are implemented
     };
     
@@ -95,6 +96,22 @@ mod tests {
         assert!(result.contains("Test Role"));
         assert!(result.contains("# Task"));
         assert!(result.contains("Test Task"));
+    }
+    
+    #[test]
+    fn test_process_input_yaml() {
+        let mut input_map = HashMap::new();
+        input_map.insert("Role".to_string(), "Test Role".to_string());
+        input_map.insert("Task".to_string(), "Test Task".to_string());
+        input_map.insert("Constraints".to_string(), "- First constraint\n- Second constraint".to_string());
+        
+        let result = process_input(input_map, Some(PromptFormat::Yaml)).unwrap();
+        
+        assert!(result.contains("role: Test Role"));
+        assert!(result.contains("task: Test Task"));
+        assert!(result.contains("constraints: |"));
+        assert!(result.contains("  - First constraint"));
+        assert!(result.contains("  - Second constraint"));
     }
     
     #[test]
