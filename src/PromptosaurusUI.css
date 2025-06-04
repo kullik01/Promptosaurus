@@ -202,6 +202,40 @@ body {
   90% { opacity: 1; transform: translateX(0); }
   100% { opacity: 0; transform: translateX(100%); }
 }
+.promptosaurus-format-selector {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.promptosaurus-format-selector label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.promptosaurus-select {
+  padding: 8px 12px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color, #e2e8f0);
+  background-color: var(--card-background);
+  font-size: 14px;
+  color: var(--text-color);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.promptosaurus-select:hover {
+  border-color: var(--button-bg);
+}
+
+.promptosaurus-select:focus {
+  border-color: var(--button-bg);
+  box-shadow: 0 0 0 2px rgba(45, 127, 249, 0.2);
+}
+
 .convert-button {
   padding: 10px 20px; /* Increase padding to make the button bigger */
   font-size: 1em; /* Adjust font size if necessary */

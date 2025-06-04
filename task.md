@@ -6,5 +6,5 @@
 # Backend
 - Save prompts
     - Save using SQLite
-- Support different prompt styles (yaml, json)
+- Support different prompt styles (xml, yaml, json, markdown)
 - 

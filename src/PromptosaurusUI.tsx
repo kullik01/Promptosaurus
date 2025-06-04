@@ -6,6 +6,12 @@ interface PromptosaurusUIProps {
   // Add any props you might need
 }
 
+// Define the available prompt formats
+enum PromptFormat {
+  Xml = 'Xml',
+  Markdown = 'Markdown',
+}
+
 const PromptosaurusUI: React.FC<PromptosaurusUIProps> = () => {
   // State for each text area
   const [role, setRole] = useState('');
@@ -13,6 +19,7 @@ const PromptosaurusUI: React.FC<PromptosaurusUIProps> = () => {
   const [context, setContext] = useState('');
   const [constraints, setConstraints] = useState('');
   const [showPopup, setShowPopup] = useState(false);
+  const [promptFormat, setPromptFormat] = useState<PromptFormat>(PromptFormat.Xml);
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>, setter: React.Dispatch<React.SetStateAction<string>>) => {
     setter(e.target.value);
@@ -30,13 +37,21 @@ const PromptosaurusUI: React.FC<PromptosaurusUIProps> = () => {
     };
 
     try {
-      const result: string = await invoke('process_input', { inputMap: inputMap });
+      const result: string = await invoke('process_input', { 
+        inputMap: inputMap,
+        format: promptFormat
+      });
       await navigator.clipboard.writeText(result);
       console.log('Prompt copied to clipboard:', result);
       setShowPopup(true);
     } catch (error) {
       console.error('Error processing input or copying to clipboard:', error);
     }
+  };
+  
+  // Handle format selection change
+  const handleFormatChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setPromptFormat(e.target.value as PromptFormat);
   };
 
   // Effect to make the UI fill the entire viewport
@@ -115,6 +130,19 @@ const PromptosaurusUI: React.FC<PromptosaurusUIProps> = () => {
           placeholder="Enter constraints..."
           rows={1}
         />
+      </div>
+      
+      <div className="promptosaurus-format-selector">
+        <label htmlFor="format-select">Prompt Format:</label>
+        <select 
+          id="format-select" 
+          value={promptFormat}
+          onChange={handleFormatChange}
+          className="promptosaurus-select"
+        >
+          <option value={PromptFormat.Xml}>XML</option>
+          <option value={PromptFormat.Markdown}>Markdown</option>
+        </select>
       </div>
       
       <button 

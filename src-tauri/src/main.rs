@@ -1,40 +1,57 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-// Import the lib module
+// Import modules
+mod prompt_styles;
+
 use std::collections::HashMap;
+use prompt_styles::{PromptStyle, XmlPromptStyle, MarkdownPromptStyle};
+use serde::{Deserialize, Serialize};
+
+/// Represents the available prompt style formats.
+#[derive(Debug, Deserialize, Serialize, Clone, Copy)]
+pub enum PromptFormat {
+    Xml,
+    Markdown,
+    // Future formats can be added here
+    // Json,
+    // Yaml,
+}
+
+impl Default for PromptFormat {
+    fn default() -> Self {
+        PromptFormat::Xml
+    }
+}
 
 /// Processes the input from the UI textboxes and transforms it into a single output string
-/// with dedicated HTML/XML tags. The output is automatically added to the clipboard.
+/// with the specified format. The output is automatically added to the clipboard.
 ///
 /// # Arguments
 ///
 /// * `input_map` - A HashMap where keys are the names of the textboxes (e.g., "Role", "Task")
 ///                 and values are the corresponding input strings.
+/// * `format` - Optional parameter specifying the output format. Defaults to XML if not provided.
 ///
 /// # Returns
 ///
-/// A `Result` indicating success or failure. On success, returns `Ok(())`.
-/// On failure, returns `Err(String)` with an error message.
+/// A `Result` containing the formatted prompt string on success, or an error message on failure.
 #[tauri::command]
-fn process_input(input_map: HashMap<String, String>) -> Result<String, String> {
-    let mut output = String::new();
-
+fn process_input(
+    input_map: HashMap<String, String>, 
+    format: Option<PromptFormat>
+) -> Result<String, String> {
+    let format = format.unwrap_or_default();
+    
+    let prompt_style: Box<dyn PromptStyle> = match format {
+        PromptFormat::Xml => Box::new(XmlPromptStyle),
+        PromptFormat::Markdown => Box::new(MarkdownPromptStyle),
+        // Add other formats as they are implemented
+    };
+    
     let order = vec!["Role", "Task", "Context", "Constraints"];
-
-    for key in order {
-        if let Some(value) = input_map.get(key) {
-            if !value.trim().is_empty() {
-                output.push_str(&format!("<{}>\n{}\n</{}>\n", key, value.trim(), key));
-            }
-        }
-    }
-
-    // Remove the last newline if it exists
-    if output.ends_with('\n') {
-        output.pop();
-    }
-
+    let output = prompt_style.format(&input_map, Some(order));
+    
     Ok(output)
 }
 
@@ -48,4 +65,46 @@ fn main() {
         .plugin(tauri_plugin_opener::init())
         .run(tauri::generate_context!())
         .expect("Error while running Promptosaurus application");
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    
+    #[test]
+    fn test_process_input_xml() {
+        let mut input_map = HashMap::new();
+        input_map.insert("Role".to_string(), "Test Role".to_string());
+        input_map.insert("Task".to_string(), "Test Task".to_string());
+        
+        let result = process_input(input_map, Some(PromptFormat::Xml)).unwrap();
+        
+        assert!(result.contains("<Role>Test Role</Role>"));
+        assert!(result.contains("<Task>Test Task</Task>"));
+    }
+    
+    #[test]
+    fn test_process_input_markdown() {
+        let mut input_map = HashMap::new();
+        input_map.insert("Role".to_string(), "Test Role".to_string());
+        input_map.insert("Task".to_string(), "Test Task".to_string());
+        
+        let result = process_input(input_map, Some(PromptFormat::Markdown)).unwrap();
+        
+        assert!(result.contains("# Role"));
+        assert!(result.contains("Test Role"));
+        assert!(result.contains("# Task"));
+        assert!(result.contains("Test Task"));
+    }
+    
+    #[test]
+    fn test_process_input_default_format() {
+        let mut input_map = HashMap::new();
+        input_map.insert("Role".to_string(), "Test Role".to_string());
+        
+        // When no format is specified, it should default to XML
+        let result = process_input(input_map, None).unwrap();
+        
+        assert!(result.contains("<Role>Test Role</Role>"));
+    }
 }
