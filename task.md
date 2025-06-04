@@ -6,5 +6,9 @@
 # Backend
 - Save prompts
     - Save using SQLite
-- Support different prompt styles (xml, yaml, json, markdown)
+- Load saved prompts
+- Add custom prompt elements
+- Create prompt element content templates
+- Load prompt element content templates
+- Estimate prompt token count
 - 
