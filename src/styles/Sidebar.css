@@ -3,7 +3,7 @@
   height: 100%;
   background-color: var(--color-white);
   border-radius: var(--border-radius-lg);
-  border: 2px solid var(--color-border);
+  border: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -16,21 +16,23 @@
 .left-sidebar {
   background-color: var(--color-white);
   border: 1px solid var(--color-border);
-  border-radius: 4px;
+  border-radius: var(--border-radius-lg);
   overflow: hidden;
   width: 250px;
   position: relative;
   animation: slide-in-left 0.3s ease;
+  box-shadow: var(--shadow-card);
 }
 
 .right-sidebar {
   background-color: var(--color-white);
   border: 1px solid var(--color-border);
-  border-radius: 4px;
+  border-radius: var(--border-radius-lg);
   overflow: hidden;
   width: 250px;
   position: relative;
   animation: slide-in-right 0.3s ease;
+  box-shadow: var(--shadow-card);
 }
 
 /* Animation for sidebars */
@@ -70,9 +72,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--border-radius-full);
   transition: all 0.2s ease;
 }
 
@@ -83,8 +85,9 @@
 
 .right-sidebar .sidebar-toggle {
   left: -16px;
-  border-radius: 4px 0 0 4px;
+  border-radius: var(--border-radius-md) 0 0 var(--border-radius-md);
   border-right: none;
+  box-shadow: var(--shadow-button);
 }
 
 .sidebar-toggle-icon {
