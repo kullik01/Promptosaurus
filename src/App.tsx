@@ -1,67 +1,60 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '@/styles/App.css';
-import MainPanel from '@/components/MainPanel';
 
 const App: React.FC = () => {
   return (
     <div className="app-container">
       <div className="header">
-        <div className="header-left">
-          <div className="file-menu">
-            <span className="menu-item">File</span>
-            <span className="menu-item">View</span>
-          </div>
-        </div>
-        <div className="header-right">
-          <div className="search-box">
-            <input type="text" placeholder="Search" className="search-input" />
-          </div>
+        <div className="search-container">
+          <input type="text" placeholder="Search" className="search-input" />
         </div>
       </div>
       
       <div className="content-container">
         <div className="left-sidebar">
-          <div className="sidebar-icons">
-            <div className="sidebar-icon">🔍</div>
-            <div className="sidebar-icon">📁</div>
-            <div className="sidebar-icon">🔄</div>
-            <div className="sidebar-icon">🔗</div>
-            <div className="sidebar-icon">📊</div>
+          <div className="sidebar-header">
+            <h2>Title of left sidebar</h2>
+            <button className="close-button">×</button>
           </div>
-          <div className="search-panel">
-            <div className="search-header">
-              <span>Search</span>
-            </div>
-            <div className="search-controls">
-              <div className="search-input-wrapper">
-                <input type="text" placeholder="Search" className="search-input" />
-                <div className="search-options">
-                  <span className="case-sensitive">Aa</span>
-                  <span className="regex">.*</span>
-                  <span className="more-options">⋮</span>
-                </div>
-              </div>
-              <div className="replace-input-wrapper">
-                <input type="text" placeholder="Replace" className="replace-input" />
-                <div className="replace-options">
-                  <span className="all">All</span>
-                </div>
-              </div>
+        </div>
+        
+        <div className="main-panel">
+          <div className="form-field">
+            <label>Role</label>
+            <input type="text" className="form-input" />
+          </div>
+          
+          <div className="form-field">
+            <label>Task</label>
+            <input type="text" className="form-input" />
+          </div>
+          
+          <div className="form-field">
+            <label>Context</label>
+            <input type="text" className="form-input" />
+          </div>
+          
+          <div className="form-field">
+            <label>Constraints</label>
+            <input type="text" className="form-input" />
+          </div>
+          
+          <div className="format-conversion">
+            <p>Convert prompt to</p>
+            <div className="format-buttons">
+              <button className="format-button">XML</button>
+              <button className="format-button">YAML</button>
+              <button className="format-button">Markdown</button>
+              <button className="format-button">JSON</button>
             </div>
           </div>
         </div>
         
-        <MainPanel />
-      </div>
-      
-      <div className="footer">
-        <div className="footer-left">
-          <span className="footer-item">in_clover</span>
-        </div>
-        <div className="footer-center">
-          <span className="footer-item">0:1</span>
-          <span className="footer-item">1</span>
-          <span className="footer-item">0</span>
+        <div className="right-sidebar">
+          <div className="sidebar-header">
+            <h2>Title of right sidebar</h2>
+            <button className="close-button">×</button>
+          </div>
         </div>
       </div>
     </div>
