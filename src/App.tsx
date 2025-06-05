@@ -1,4 +1,8 @@
 import React from 'react';
+import Navbar from './components/Navbar';
+import LeftSidebar from './components/LeftSidebar';
+import MainPanel from './components/MainPanel';
+import RightSidebar from './components/RightSidebar';
 import '@/styles/App.css';
 
 const App: React.FC = () => {
@@ -11,65 +15,10 @@ const App: React.FC = () => {
       </div>
       
       <div className="content-container">
-        <div className="nav-buttons">
-          <button className="nav-button">
-            <div className="diagonal-line"></div>
-          </button>
-          <button className="nav-button">
-            <div className="diagonal-line-reverse"></div>
-          </button>
-          <button className="nav-button">
-            <div className="horizontal-line"></div>
-          </button>
-          <button className="nav-button">
-            <div className="vertical-line"></div>
-          </button>
-        </div>
-        <div className="left-sidebar">
-          <div className="sidebar-header">
-            <h2>Title of left sidebar</h2>
-            <button className="close-button">×</button>
-          </div>
-        </div>
-        
-        <div className="main-panel">
-          <div className="form-field">
-            <label>Role</label>
-            <input type="text" className="form-input" />
-          </div>
-          
-          <div className="form-field">
-            <label>Task</label>
-            <input type="text" className="form-input" />
-          </div>
-          
-          <div className="form-field">
-            <label>Context</label>
-            <input type="text" className="form-input" />
-          </div>
-          
-          <div className="form-field">
-            <label>Constraints</label>
-            <input type="text" className="form-input" />
-          </div>
-          
-          <div className="format-conversion">
-            <p>Convert prompt to</p>
-            <div className="format-buttons">
-              <button className="format-button">XML</button>
-              <button className="format-button">YAML</button>
-              <button className="format-button">Markdown</button>
-              <button className="format-button">JSON</button>
-            </div>
-          </div>
-        </div>
-        
-        <div className="right-sidebar">
-          <div className="sidebar-header">
-            <h2>Title of right sidebar</h2>
-            <button className="close-button">×</button>
-          </div>
-        </div>
+        <Navbar/>
+        <LeftSidebar/>
+        <MainPanel/>
+        <RightSidebar/>
       </div>
     </div>
   );

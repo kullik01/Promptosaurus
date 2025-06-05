@@ -10,14 +10,91 @@
   box-shadow: var(--shadow-card);
   margin: 10px;
   position: relative;
+  transition: all 0.3s ease;
 }
 
 .left-sidebar {
-  margin-left: 60px; /* Account for navbar width */
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .right-sidebar {
-  margin-right: 10px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Collapsed state for sidebars */
+.sidebar.collapsed {
+  width: 40px;
+  min-width: 40px;
+  overflow: hidden;
+}
+
+.sidebar.collapsed .sidebar-content {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.sidebar.collapsed .sidebar-title {
+  display: none;
+}
+
+/* Toggle button for sidebar collapse */
+.sidebar-toggle {
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 40px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  transition: all 0.3s ease;
+}
+
+.left-sidebar .sidebar-toggle {
+  right: -16px;
+  border-radius: 0 4px 4px 0;
+  border-left: none;
+}
+
+.right-sidebar .sidebar-toggle {
+  left: -16px;
+  border-radius: 4px 0 0 4px;
+  border-right: none;
+}
+
+.sidebar-toggle-icon {
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.left-sidebar .sidebar-toggle-icon {
+  border-width: 5px 5px 5px 0;
+  border-color: transparent var(--color-text-secondary) transparent transparent;
+}
+
+.left-sidebar.collapsed .sidebar-toggle-icon {
+  border-width: 5px 0 5px 5px;
+  border-color: transparent transparent transparent var(--color-text-secondary);
+}
+
+.right-sidebar .sidebar-toggle-icon {
+  border-width: 5px 0 5px 5px;
+  border-color: transparent transparent transparent var(--color-text-secondary);
+}
+
+.right-sidebar.collapsed .sidebar-toggle-icon {
+  border-width: 5px 5px 5px 0;
+  border-color: transparent var(--color-text-secondary) transparent transparent;
 }
 
 .sidebar-header {
