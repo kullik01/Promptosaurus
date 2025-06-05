@@ -3,7 +3,7 @@ import { useSidebar } from '../store/SidebarContext';
 import '@/styles/Sidebar.css';
 
 const RightSidebar: React.FC = () => {
-  const { isRightSidebarCollapsed, toggleRightSidebar } = useSidebar();
+  const { isRightSidebarVisible, hideRightSidebar } = useSidebar();
   const [isMobileView, setIsMobileView] = useState(false);
   
   // Check if we're in mobile view
@@ -24,25 +24,23 @@ const RightSidebar: React.FC = () => {
     };
   }, []);
   
+  // If sidebar is not visible, don't render anything
+  if (!isRightSidebarVisible) {
+    return null;
+  }
+  
   return (
-    <div className={`right-sidebar ${isRightSidebarCollapsed ? 'collapsed' : ''} ${isMobileView ? 'mobile-view' : ''}`}>
+    <div className="right-sidebar">
       <div className="sidebar-header">
-        {!isRightSidebarCollapsed && <h2>Title of right sidebar</h2>}
+        <h2>Title of right sidebar</h2>
         <button 
           className="close-button" 
-          onClick={toggleRightSidebar}
-          disabled={isMobileView} // Disable toggle button in mobile view
+          onClick={hideRightSidebar}
+          aria-label="Close right sidebar"
         >
-          {isRightSidebarCollapsed ? '←' : '×'}
+          ×
         </button>
       </div>
-      
-      {/* Only show toggle in non-mobile view */}
-      {!isMobileView && (
-        <div className="sidebar-toggle" onClick={toggleRightSidebar}>
-          <div className={`sidebar-toggle-icon ${isRightSidebarCollapsed ? 'collapsed' : ''}`}></div>
-        </div>
-      )}
     </div>
   );
 };

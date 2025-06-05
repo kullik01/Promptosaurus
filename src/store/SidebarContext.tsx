@@ -1,17 +1,25 @@
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 
 interface SidebarContextType {
-  isLeftSidebarCollapsed: boolean;
-  isRightSidebarCollapsed: boolean;
+  isLeftSidebarVisible: boolean;
+  isRightSidebarVisible: boolean;
   toggleLeftSidebar: () => void;
   toggleRightSidebar: () => void;
+  showLeftSidebar: () => void;
+  showRightSidebar: () => void;
+  hideLeftSidebar: () => void;
+  hideRightSidebar: () => void;
 }
 
 const SidebarContext = createContext<SidebarContextType>({
-  isLeftSidebarCollapsed: false,
-  isRightSidebarCollapsed: false,
+  isLeftSidebarVisible: false,
+  isRightSidebarVisible: false,
   toggleLeftSidebar: () => {},
   toggleRightSidebar: () => {},
+  showLeftSidebar: () => {},
+  showRightSidebar: () => {},
+  hideLeftSidebar: () => {},
+  hideRightSidebar: () => {},
 });
 
 interface SidebarProviderProps {
@@ -19,33 +27,51 @@ interface SidebarProviderProps {
 }
 
 export const SidebarProvider: React.FC<SidebarProviderProps> = ({ children }) => {
-  const [isLeftSidebarCollapsed, setIsLeftSidebarCollapsed] = useState(false);
-  const [isRightSidebarCollapsed, setIsRightSidebarCollapsed] = useState(false);
+  const [isLeftSidebarVisible, setIsLeftSidebarVisible] = useState(true);
+  const [isRightSidebarVisible, setIsRightSidebarVisible] = useState(true);
   
   const toggleLeftSidebar = () => {
-    setIsLeftSidebarCollapsed(!isLeftSidebarCollapsed);
+    setIsLeftSidebarVisible(!isLeftSidebarVisible);
   };
   
   const toggleRightSidebar = () => {
-    setIsRightSidebarCollapsed(!isRightSidebarCollapsed);
+    setIsRightSidebarVisible(!isRightSidebarVisible);
+  };
+  
+  const showLeftSidebar = () => {
+    setIsLeftSidebarVisible(true);
+  };
+  
+  const showRightSidebar = () => {
+    setIsRightSidebarVisible(true);
+  };
+  
+  const hideLeftSidebar = () => {
+    setIsLeftSidebarVisible(false);
+  };
+  
+  const hideRightSidebar = () => {
+    setIsRightSidebarVisible(false);
   };
 
-  // Automatically collapse sidebars when viewport width is below threshold
+  // Automatically hide sidebars when viewport width is below threshold
   useEffect(() => {
     const handleResize = () => {
-      // Different thresholds for different behaviors
       const width = window.innerWidth;
-      const shouldCollapse = width < 1024; // Threshold width for normal collapse
+      const shouldHide = width < 1024; // Threshold width for hiding sidebars
       
-      // Always collapse sidebars at mobile sizes (below 768px)
-      // This ensures they stay in the correct position
+      // Always hide sidebars at mobile sizes (below 768px)
       if (width < 768) {
-        setIsLeftSidebarCollapsed(true);
-        setIsRightSidebarCollapsed(true);
+        setIsLeftSidebarVisible(false);
+        setIsRightSidebarVisible(false);
+      } else if (shouldHide) {
+        // For medium screens, hide by default but allow toggling
+        setIsLeftSidebarVisible(false);
+        setIsRightSidebarVisible(false);
       } else {
-        // Normal responsive behavior for larger screens
-        setIsLeftSidebarCollapsed(shouldCollapse);
-        setIsRightSidebarCollapsed(shouldCollapse);
+        // For large screens, show by default
+        setIsLeftSidebarVisible(true);
+        setIsRightSidebarVisible(true);
       }
     };
     
@@ -64,10 +90,14 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({ children }) =>
   return (
     <SidebarContext.Provider
       value={{
-        isLeftSidebarCollapsed,
-        isRightSidebarCollapsed,
+        isLeftSidebarVisible,
+        isRightSidebarVisible,
         toggleLeftSidebar,
         toggleRightSidebar,
+        showLeftSidebar,
+        showRightSidebar,
+        hideLeftSidebar,
+        hideRightSidebar
       }}
     >
       {children}

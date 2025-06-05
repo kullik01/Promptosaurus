@@ -19,8 +19,8 @@
   border-radius: 4px;
   overflow: hidden;
   width: 250px;
-  transition: width 0.3s ease;
   position: relative;
+  animation: slide-in-left 0.3s ease;
 }
 
 .right-sidebar {
@@ -29,47 +29,19 @@
   border-radius: 4px;
   overflow: hidden;
   width: 250px;
-  transition: width 0.3s ease;
   position: relative;
+  animation: slide-in-right 0.3s ease;
 }
 
-/* Collapsed state for sidebars */
-.left-sidebar.collapsed,
-.right-sidebar.collapsed {
-  width: 40px;
-  min-width: 40px;
-  overflow: hidden;
+/* Animation for sidebars */
+@keyframes slide-in-left {
+  from { transform: translateX(-100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }
 
-.left-sidebar.collapsed .sidebar-content,
-.right-sidebar.collapsed .sidebar-content {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.left-sidebar.collapsed .sidebar-title,
-.right-sidebar.collapsed .sidebar-title {
-  display: none;
-}
-
-/* Mobile view specific styles */
-.left-sidebar.mobile-view,
-.right-sidebar.mobile-view {
-  width: 40px !important;
-  min-width: 40px !important;
-  overflow: hidden;
-  position: relative;
-}
-
-.left-sidebar.mobile-view .sidebar-header,
-.right-sidebar.mobile-view .sidebar-header {
-  justify-content: center;
-  padding: 5px;
-}
-
-.left-sidebar.mobile-view .close-button,
-.right-sidebar.mobile-view .close-button {
-  display: none;
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }
 
 /* Ensure main panel takes most of the space in mobile view */
@@ -79,26 +51,34 @@
   }
 }
 
-/* Toggle button for sidebar collapse */
-.sidebar-toggle {
-  position: absolute;
-  top: 50%;
-  width: 16px;
-  height: 40px;
-  background-color: var(--color-white);
-  border: 1px solid var(--color-border);
+/* Sidebar header styling */
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Close button styling */
+.close-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--color-text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  z-index: 5;
-  transition: all 0.3s ease;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
 }
 
-.left-sidebar .sidebar-toggle {
-  right: -16px;
-  border-radius: 0 4px 4px 0;
-  border-left: none;
+.close-button:hover {
+  background-color: var(--color-border);
+  color: var(--color-text-primary);
 }
 
 .right-sidebar .sidebar-toggle {
@@ -267,7 +247,6 @@
   
   .left-sidebar {
     margin-left: 0;
-    margin-top: 60px; /* Account for navbar height */
   }
   
   .right-sidebar {

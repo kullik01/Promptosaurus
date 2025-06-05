@@ -78,30 +78,13 @@
     flex-direction: row;
   }
   
-  /* Ensure sidebars remain collapsed but stay on the sides */
-  .left-sidebar, .right-sidebar {
-    width: 40px;
-    min-width: 40px;
+  /* Ensure main panel has enough space */
+  .main-panel {
+    flex: 1;
   }
   
-  /* Force collapsed state for sidebars at small screen sizes */
-  .left-sidebar:not(.collapsed),
-  .right-sidebar:not(.collapsed) {
-    width: 40px;
-    min-width: 40px;
-    overflow: hidden;
-  }
-  
-  /* Hide sidebar content when collapsed at small screen sizes */
-  .left-sidebar:not(.collapsed) .sidebar-header h2,
-  .right-sidebar:not(.collapsed) .sidebar-header h2,
-  .left-sidebar:not(.collapsed) .search-container,
-  .right-sidebar:not(.collapsed) .search-container {
-    display: none;
-  }
-  
-  /* Adjust sidebar toggle position for better visibility */
-  .sidebar-toggle {
-    z-index: 10;
+  /* Adjust navbar positioning for mobile */
+  .nav-buttons {
+    left: 5px;
   }
 }

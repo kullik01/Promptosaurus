@@ -3,7 +3,7 @@ import { useSidebar } from '../store/SidebarContext';
 import '@/styles/Sidebar.css';
 
 const LeftSidebar: React.FC = () => {
-  const { isLeftSidebarCollapsed, toggleLeftSidebar } = useSidebar();
+  const { isLeftSidebarVisible, hideLeftSidebar } = useSidebar();
   const [isMobileView, setIsMobileView] = useState(false);
   
   // Check if we're in mobile view
@@ -24,30 +24,26 @@ const LeftSidebar: React.FC = () => {
     };
   }, []);
   
+  // If sidebar is not visible, don't render anything
+  if (!isLeftSidebarVisible) {
+    return null;
+  }
+  
   return (
-    <div className={`left-sidebar ${isLeftSidebarCollapsed ? 'collapsed' : ''} ${isMobileView ? 'mobile-view' : ''}`}>
+    <div className="left-sidebar">
       <div className="sidebar-header">
-        {!isLeftSidebarCollapsed && <h2>Title of left sidebar</h2>}
+        <h2>Title of left sidebar</h2>
         <button 
           className="close-button" 
-          onClick={toggleLeftSidebar}
-          disabled={isMobileView} // Disable toggle button in mobile view
+          onClick={hideLeftSidebar}
+          aria-label="Close left sidebar"
         >
-          {isLeftSidebarCollapsed ? '→' : '×'}
+          ×
         </button>
       </div>
-      {!isLeftSidebarCollapsed && (
-        <div className="search-container">
-          <input type="text" placeholder="Search" className="search-input" />
-        </div>
-      )}
-      
-      {/* Only show toggle in non-mobile view */}
-      {!isMobileView && (
-        <div className="sidebar-toggle" onClick={toggleLeftSidebar}>
-          <div className={`sidebar-toggle-icon ${isLeftSidebarCollapsed ? 'collapsed' : ''}`}></div>
-        </div>
-      )}
+      <div className="search-container">
+        <input type="text" placeholder="Search" className="search-input" />
+      </div>
     </div>
   );
 };
