@@ -27,9 +27,9 @@ const MainPanel: React.FC = () => {
           <div className="format-conversion">
             <p>Convert prompt to</p>
             <div className="format-buttons">
+              <button className="format-button">Markdown</button>
               <button className="format-button">XML</button>
               <button className="format-button">YAML</button>
-              <button className="format-button">Markdown</button>
               <button className="format-button">JSON</button>
             </div>
           </div>

@@ -8,6 +8,9 @@ const LeftSidebar: React.FC = () => {
         <h2>Title of left sidebar</h2>
         <button className="close-button">×</button>
       </div>
+      <div className="search-container">
+        <input type="text" placeholder="Search" className="search-input" />
+      </div>
     </div>
   );
 };
