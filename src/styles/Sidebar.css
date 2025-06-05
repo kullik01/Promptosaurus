@@ -18,6 +18,9 @@
   border: 1px solid var(--color-border);
   border-radius: 4px;
   overflow: hidden;
+  width: 250px;
+  transition: width 0.3s ease;
+  position: relative;
 }
 
 .right-sidebar {
@@ -25,21 +28,27 @@
   border: 1px solid var(--color-border);
   border-radius: 4px;
   overflow: hidden;
+  width: 250px;
+  transition: width 0.3s ease;
+  position: relative;
 }
 
 /* Collapsed state for sidebars */
-.sidebar.collapsed {
+.left-sidebar.collapsed,
+.right-sidebar.collapsed {
   width: 40px;
   min-width: 40px;
   overflow: hidden;
 }
 
-.sidebar.collapsed .sidebar-content {
+.left-sidebar.collapsed .sidebar-content,
+.right-sidebar.collapsed .sidebar-content {
   opacity: 0;
   visibility: hidden;
 }
 
-.sidebar.collapsed .sidebar-title {
+.left-sidebar.collapsed .sidebar-title,
+.right-sidebar.collapsed .sidebar-title {
   display: none;
 }
 
