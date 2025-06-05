@@ -11,6 +11,20 @@ const App: React.FC = () => {
       </div>
       
       <div className="content-container">
+        <div className="nav-buttons">
+          <button className="nav-button">
+            <div className="diagonal-line"></div>
+          </button>
+          <button className="nav-button">
+            <div className="diagonal-line-reverse"></div>
+          </button>
+          <button className="nav-button">
+            <div className="horizontal-line"></div>
+          </button>
+          <button className="nav-button">
+            <div className="vertical-line"></div>
+          </button>
+        </div>
         <div className="left-sidebar">
           <div className="sidebar-header">
             <h2>Title of left sidebar</h2>
