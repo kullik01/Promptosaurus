@@ -17,20 +17,14 @@ const Navbar: React.FC = () => {
         onClick={toggleLeftSidebar}
         title={isLeftSidebarVisible ? "Hide left sidebar" : "Show left sidebar"}
       >
-        <div className="diagonal-line"></div>
+        <span className="material-symbols-outlined">library_books</span>
       </button>
       <button 
         className={`nav-button ${isRightSidebarVisible ? 'active' : ''}`}
         onClick={toggleRightSidebar}
         title={isRightSidebarVisible ? "Hide right sidebar" : "Show right sidebar"}
       >
-        <div className="diagonal-line-reverse"></div>
-      </button>
-      <button className="nav-button">
-        <div className="horizontal-line"></div>
-      </button>
-      <button className="nav-button">
-        <div className="vertical-line"></div>
+        <span className="material-symbols-outlined">preview</span>
       </button>
     </div>
   );

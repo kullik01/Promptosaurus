@@ -32,7 +32,7 @@ const RightSidebar: React.FC = () => {
   return (
     <div className="right-sidebar">
       <div className="sidebar-header">
-        <h2>Title of right sidebar</h2>
+        <h2>Prompt Optimization</h2>
         <button 
           className="close-button" 
           onClick={hideRightSidebar}

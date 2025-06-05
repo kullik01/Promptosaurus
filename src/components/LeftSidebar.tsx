@@ -32,7 +32,7 @@ const LeftSidebar: React.FC = () => {
   return (
     <div className="left-sidebar">
       <div className="sidebar-header">
-        <h2>Title of left sidebar</h2>
+        <h2>Prompt Library</h2>
         <button 
           className="close-button" 
           onClick={hideLeftSidebar}

@@ -28,33 +28,14 @@
   border-color: var(--color-primary);
 }
 
-.diagonal-line {
-  width: 20px;
-  height: 1px;
-  background-color: var(--color-text);
-  transform: rotate(45deg);
+.nav-button .material-symbols-outlined {
+  font-size: 20px;
+  color: var(--color-text);
 }
 
-.diagonal-line-reverse {
-  width: 20px;
-  height: 1px;
-  background-color: var(--color-text);
-  transform: rotate(-45deg);
+.nav-button.active .material-symbols-outlined {
+  color: var(--color-primary);
 }
-
-.horizontal-line {
-  width: 20px;
-  height: 1px;
-  background-color: var(--color-text);
-}
-
-.vertical-line {
-  width: 1px;
-  height: 20px;
-  background-color: var(--color-text);
-}
-
-
 
 .sidebar-header {
   display: flex;

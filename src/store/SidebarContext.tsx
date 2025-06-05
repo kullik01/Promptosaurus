@@ -68,21 +68,15 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({ children }) =>
     const handleResize = () => {
       const width = window.innerWidth;
       
-      // Only for extreme mobile sizes (below 768px), override user preference
-      if (width < 768) {
-        setIsLeftSidebarVisible(false);
-        setIsRightSidebarVisible(false);
-      } else {
-        // For all other sizes, respect user preference if they've toggled
-        if (!leftSidebarUserToggled) {
-          // Default behavior if user hasn't toggled
-          setIsLeftSidebarVisible(width >= 1024);
-        }
-        
-        if (!rightSidebarUserToggled) {
-          // Default behavior if user hasn't toggled
-          setIsRightSidebarVisible(width >= 1024);
-        }
+      // Only apply default behavior if user hasn't toggled
+      if (!leftSidebarUserToggled) {
+        // Default behavior based on screen width
+        setIsLeftSidebarVisible(width >= 1024);
+      }
+      
+      if (!rightSidebarUserToggled) {
+        // Default behavior based on screen width
+        setIsRightSidebarVisible(width >= 1024);
       }
     };
     
