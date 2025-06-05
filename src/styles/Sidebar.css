@@ -52,6 +52,33 @@
   display: none;
 }
 
+/* Mobile view specific styles */
+.left-sidebar.mobile-view,
+.right-sidebar.mobile-view {
+  width: 40px !important;
+  min-width: 40px !important;
+  overflow: hidden;
+  position: relative;
+}
+
+.left-sidebar.mobile-view .sidebar-header,
+.right-sidebar.mobile-view .sidebar-header {
+  justify-content: center;
+  padding: 5px;
+}
+
+.left-sidebar.mobile-view .close-button,
+.right-sidebar.mobile-view .close-button {
+  display: none;
+}
+
+/* Ensure main panel takes most of the space in mobile view */
+@media (max-width: 768px) {
+  .main-panel {
+    flex: 1;
+  }
+}
+
 /* Toggle button for sidebar collapse */
 .sidebar-toggle {
   position: absolute;

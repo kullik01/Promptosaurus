@@ -33,9 +33,20 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({ children }) =>
   // Automatically collapse sidebars when viewport width is below threshold
   useEffect(() => {
     const handleResize = () => {
-      const shouldCollapse = window.innerWidth < 1024; // Threshold width in pixels
-      setIsLeftSidebarCollapsed(shouldCollapse);
-      setIsRightSidebarCollapsed(shouldCollapse);
+      // Different thresholds for different behaviors
+      const width = window.innerWidth;
+      const shouldCollapse = width < 1024; // Threshold width for normal collapse
+      
+      // Always collapse sidebars at mobile sizes (below 768px)
+      // This ensures they stay in the correct position
+      if (width < 768) {
+        setIsLeftSidebarCollapsed(true);
+        setIsRightSidebarCollapsed(true);
+      } else {
+        // Normal responsive behavior for larger screens
+        setIsLeftSidebarCollapsed(shouldCollapse);
+        setIsRightSidebarCollapsed(shouldCollapse);
+      }
     };
     
     // Initial check
