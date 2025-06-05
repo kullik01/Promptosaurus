@@ -47,6 +47,27 @@
   outline: none;
 }
 
+.form-textarea {
+  width: 100%;
+  min-height: 32px;
+  max-height: 200px;
+  padding: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  font-size: 14px;
+  font-family: sans-serif;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, height 0.2s ease;
+  resize: none;
+  overflow-y: auto;
+  line-height: 1.5;
+}
+
+.form-textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+  outline: none;
+}
+
 .format-conversion {
   margin-top: 40px;
 }

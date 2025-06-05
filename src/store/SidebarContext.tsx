@@ -27,8 +27,8 @@ interface SidebarProviderProps {
 }
 
 export const SidebarProvider: React.FC<SidebarProviderProps> = ({ children }) => {
-  const [isLeftSidebarVisible, setIsLeftSidebarVisible] = useState(true);
-  const [isRightSidebarVisible, setIsRightSidebarVisible] = useState(true);
+  const [isLeftSidebarVisible, setIsLeftSidebarVisible] = useState(false);
+  const [isRightSidebarVisible, setIsRightSidebarVisible] = useState(false);
   // Track if user has manually toggled sidebars
   const [leftSidebarUserToggled, setLeftSidebarUserToggled] = useState(false);
   const [rightSidebarUserToggled, setRightSidebarUserToggled] = useState(false);
