@@ -1,0 +1,77 @@
+TASK: Panel Resizing and Auto-Collapse Implementation
+
+OVERVIEW:
+Fix and enhance the panel system to implement proper resizing functionality with drag handles and automatic side panel collapse behavior based on width thresholds.
+
+REQUIREMENTS:
+
+1. PANEL RESIZING SYSTEM
+- Implement functional drag handles (sliders) between panels
+- Left Panel <-> Main Panel: Vertical drag handle, resize both proportionally
+- Main Panel <-> Right Panel: Vertical drag handle, resize both proportionally  
+- Main Content <-> Bottom Panel: Horizontal drag handle, resize both proportionally
+
+2. AUTO-COLLAPSE FUNCTIONALITY
+- Left Side Panel: Auto-collapse when width < 200px
+- Right Side Panel: Auto-collapse when width < 180px
+- Show collapse/expand toggle buttons
+- Animate collapse/expand transitions (300ms ease-in-out)
+- Remember collapsed state in localStorage
+- Collapsed panels show 32px strip with expand button
+
+3. TECHNICAL IMPLEMENTATION
+- Mouse event handling: mousedown, mousemove, mouseup
+- Touch support for mobile devices
+- Visual drag indicators with proper cursors (col-resize, row-resize)
+- Smooth dragging without layout jumps
+- State management with React hooks (useState, useEffect, useCallback)
+
+4. CONSTRAINTS AND VALIDATION
+- Minimum widths: Left panel (120px), Right panel (100px), Main panel (300px)
+- Minimum heights: Bottom panel (80px), Main content (200px)
+- Maximum width limits to prevent oversized panels
+- Prevent panels from completely disappearing
+
+5. RESPONSIVE BEHAVIOR
+- Screen width < 768px: Auto-collapse both side panels
+- Screen width < 1024px: Consider collapsing one side panel
+- Handle window resize events appropriately
+- Maintain panel proportions on window resize
+
+6. VISUAL AND UX REQUIREMENTS
+- Clear visual indication of draggable areas
+- Hover states with appropriate cursors
+- Active dragging visual feedback
+- Smooth animations and transitions
+- No jarring layout shifts
+- Keyboard accessibility (Enter/Space to toggle collapse)
+
+7. CODE STRUCTURE REQUIREMENTS
+- Use functional components with hooks
+- Implement custom hooks for resize logic if needed
+- Handle edge cases and error states
+- Memory cleanup of event listeners
+- Performance optimization for smooth interactions
+
+8. TESTING SCENARIOS
+- Rapid mouse movements during dragging
+- Window resize while panels are being dragged
+- Minimum/maximum size constraint validation
+- Memory cleanup verification
+- Cross-browser compatibility
+
+EXPECTED OUTCOME:
+A fully functional panel system where users can:
+- Drag any panel divider to resize adjacent panels
+- Experience automatic collapse of side panels when too narrow
+- Manually toggle panel collapse/expand states
+- Maintain responsive and smooth user experience
+- Have panel preferences remembered across sessions
+
+DELIVERABLES:
+- Updated React components with resize functionality
+- Drag handle components with proper event handling
+- Auto-collapse logic implementation
+- CSS/styling for animations and visual feedback
+- State management for panel sizes and collapse states
+- localStorage integration for preference persistence

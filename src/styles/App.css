@@ -1,0 +1,430 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+/* Header styles */
+.header {
+  display: flex;
+  height: 35px;
+  width: 100%;
+  border-bottom: 1px solid var(--color-border);
+  background-color: #f3f3f3;
+  align-items: center;
+  padding: 0 10px;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.file-menu {
+  display: flex;
+  gap: 15px;
+  font-size: 12px;
+}
+
+.menu-item {
+  cursor: pointer;
+}
+
+.header-center {
+  display: flex;
+  align-items: center;
+}
+
+.promptosaurus-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #f3f3f3;
+  border-radius: 4px;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+
+.promptosaurus-icon {
+  background-color: #6e6e6e;
+  color: white;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.promptosaurus-text {
+  font-size: 12px;
+}
+
+.dropdown-arrow {
+  font-size: 8px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.search-box {
+  position: relative;
+}
+
+.search-input {
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  font-size: 12px;
+  width: 200px;
+}
+
+/* Content container */
+.content-container {
+  display: flex;
+  flex: 1;
+  height: calc(100% - 55px); /* Adjust for header and footer */
+  width: 100%;
+  position: relative;
+}
+
+/* Left sidebar */
+.left-sidebar {
+  display: flex;
+  width: 250px;
+  border-right: 1px solid var(--color-border);
+}
+
+.sidebar-icons {
+  display: flex;
+  flex-direction: column;
+  width: 40px;
+  background-color: #f3f3f3;
+  align-items: center;
+  padding-top: 10px;
+  gap: 15px;
+}
+
+.sidebar-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.search-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.search-header {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.search-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.search-input-wrapper, .replace-input-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.search-input-wrapper input, .replace-input-wrapper input {
+  width: 100%;
+  padding: 4px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 0;
+  font-size: 12px;
+}
+
+.search-options, .replace-options {
+  position: absolute;
+  right: 5px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.case-sensitive, .regex, .more-options, .all {
+  font-size: 12px;
+  cursor: pointer;
+  color: #666;
+}
+
+/* Main panel */
+.main-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #fff;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 20px;
+}
+
+/* Figma assistant */
+.figma-assistant {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.figma-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.figma-avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #ff00ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.figma-title h2 {
+  font-size: 16px;
+  font-weight: normal;
+  color: #333;
+}
+
+.figma-chat-window {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.figma-chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--color-border);
+  background-color: #f9f9f9;
+}
+
+.figma-assistant-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.figma-assistant-icon {
+  width: 24px;
+  height: 24px;
+  background-color: #ff00ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.figma-assistant-name {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.figma-chat-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.refresh-icon, .settings-icon, .close-icon {
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.figma-chat-content {
+  padding: 12px;
+  min-height: 100px;
+  background-color: white;
+}
+
+.figma-chat-footer {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-top: 1px solid var(--color-border);
+  background-color: #f9f9f9;
+}
+
+.figma-chat-tools {
+  display: flex;
+  gap: 10px;
+}
+
+.emoji-tool, .code-tool, .image-tool {
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.figma-model-info {
+  margin-left: auto;
+  font-size: 11px;
+  color: #666;
+}
+
+.figma-send-button {
+  margin-left: 10px;
+  width: 24px;
+  height: 24px;
+  background-color: #0066ff;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+}
+
+/* Past conversations */
+.past-conversations {
+  width: 100%;
+  max-width: 600px;
+}
+
+.past-conversations-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.past-conversations-header h3 {
+  font-size: 14px;
+  font-weight: normal;
+  color: #666;
+}
+
+.more-link {
+  font-size: 12px;
+  color: #0066ff;
+  cursor: pointer;
+}
+
+.conversation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.conversation-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.conversation-icon {
+  color: #666;
+  font-size: 14px;
+}
+
+.conversation-text {
+  font-size: 12px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.conversation-date {
+  font-size: 11px;
+  color: #666;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  height: 20px;
+  width: 100%;
+  border-top: 1px solid var(--color-border);
+  background-color: #f3f3f3;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 11px;
+  color: #666;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+}
+
+.footer-center {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.footer-item {
+  cursor: pointer;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .content-container {
+    flex-direction: column;
+  }
+  
+  .left-sidebar {
+    width: 100%;
+    height: 200px;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .sidebar-icons {
+    flex-direction: row;
+    width: 100%;
+    height: 40px;
+    padding-top: 0;
+    justify-content: center;
+  }
+  
+  .figma-assistant, .past-conversations {
+    max-width: 100%;
+  }
+}

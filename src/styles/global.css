@@ -1,0 +1,68 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Colors from VS Code-like UI */
+  --color-background: #ffffff;
+  --color-white: #FFFFFF;
+  --color-border: #e0e0e0;
+  --color-text: #333333;
+  --color-text-secondary: #666666;
+  --color-header-bg: #f3f3f3;
+  --color-sidebar-bg: #f3f3f3;
+  --color-figma-pink: #ff00ff;
+  --color-figma-button: #0066ff;
+  
+  /* Shadows */
+  --shadow-card: 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  
+  /* Border radius */
+  --border-radius-sm: 3px;
+  --border-radius-md: 5px;
+  --border-radius-lg: 8px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+/* Focus styles */
+:focus {
+  outline: 1px solid #0066ff;
+  outline-offset: -1px;
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
