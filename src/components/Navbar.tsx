@@ -6,23 +6,23 @@ const Navbar: React.FC = () => {
   const { 
     isLeftSidebarVisible, 
     isRightSidebarVisible, 
-    showLeftSidebar, 
-    showRightSidebar 
+    toggleLeftSidebar, 
+    toggleRightSidebar 
   } = useSidebar();
 
   return (
     <div className="nav-buttons">
       <button 
         className={`nav-button ${isLeftSidebarVisible ? 'active' : ''}`}
-        onClick={showLeftSidebar}
-        title="Show left sidebar"
+        onClick={toggleLeftSidebar}
+        title={isLeftSidebarVisible ? "Hide left sidebar" : "Show left sidebar"}
       >
         <div className="diagonal-line"></div>
       </button>
       <button 
         className={`nav-button ${isRightSidebarVisible ? 'active' : ''}`}
-        onClick={showRightSidebar}
-        title="Show right sidebar"
+        onClick={toggleRightSidebar}
+        title={isRightSidebarVisible ? "Hide right sidebar" : "Show right sidebar"}
       >
         <div className="diagonal-line-reverse"></div>
       </button>

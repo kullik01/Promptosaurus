@@ -29,49 +29,60 @@ interface SidebarProviderProps {
 export const SidebarProvider: React.FC<SidebarProviderProps> = ({ children }) => {
   const [isLeftSidebarVisible, setIsLeftSidebarVisible] = useState(true);
   const [isRightSidebarVisible, setIsRightSidebarVisible] = useState(true);
+  // Track if user has manually toggled sidebars
+  const [leftSidebarUserToggled, setLeftSidebarUserToggled] = useState(false);
+  const [rightSidebarUserToggled, setRightSidebarUserToggled] = useState(false);
   
   const toggleLeftSidebar = () => {
+    setLeftSidebarUserToggled(true);
     setIsLeftSidebarVisible(!isLeftSidebarVisible);
   };
   
   const toggleRightSidebar = () => {
+    setRightSidebarUserToggled(true);
     setIsRightSidebarVisible(!isRightSidebarVisible);
   };
   
   const showLeftSidebar = () => {
+    setLeftSidebarUserToggled(true);
     setIsLeftSidebarVisible(true);
   };
   
   const showRightSidebar = () => {
+    setRightSidebarUserToggled(true);
     setIsRightSidebarVisible(true);
   };
   
   const hideLeftSidebar = () => {
+    setLeftSidebarUserToggled(true);
     setIsLeftSidebarVisible(false);
   };
   
   const hideRightSidebar = () => {
+    setRightSidebarUserToggled(true);
     setIsRightSidebarVisible(false);
   };
 
-  // Automatically hide sidebars when viewport width is below threshold
+  // Handle responsive behavior while respecting user toggled state
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      const shouldHide = width < 1024; // Threshold width for hiding sidebars
       
-      // Always hide sidebars at mobile sizes (below 768px)
+      // Only for extreme mobile sizes (below 768px), override user preference
       if (width < 768) {
         setIsLeftSidebarVisible(false);
         setIsRightSidebarVisible(false);
-      } else if (shouldHide) {
-        // For medium screens, hide by default but allow toggling
-        setIsLeftSidebarVisible(false);
-        setIsRightSidebarVisible(false);
       } else {
-        // For large screens, show by default
-        setIsLeftSidebarVisible(true);
-        setIsRightSidebarVisible(true);
+        // For all other sizes, respect user preference if they've toggled
+        if (!leftSidebarUserToggled) {
+          // Default behavior if user hasn't toggled
+          setIsLeftSidebarVisible(width >= 1024);
+        }
+        
+        if (!rightSidebarUserToggled) {
+          // Default behavior if user hasn't toggled
+          setIsRightSidebarVisible(width >= 1024);
+        }
       }
     };
     
@@ -85,7 +96,7 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({ children }) =>
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [leftSidebarUserToggled, rightSidebarUserToggled]);
   
   return (
     <SidebarContext.Provider
