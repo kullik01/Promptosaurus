@@ -10,11 +10,11 @@ const App: React.FC = () => {
   return (
     <SidebarProvider>
       <div className="app-container">
-        <div className="header">
+        {/* <div className="header">
           <div className="search-container">
             <input type="text" placeholder="Search" className="search-input" />
           </div>
-        </div>
+        </div> */}
         
         <div className="content-container">
           <Navbar/>

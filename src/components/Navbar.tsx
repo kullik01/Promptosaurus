@@ -15,14 +15,14 @@ const Navbar: React.FC = () => {
       <button 
         className={`nav-button ${isLeftSidebarVisible ? 'active' : ''}`}
         onClick={toggleLeftSidebar}
-        title={isLeftSidebarVisible ? "Hide left sidebar" : "Show left sidebar"}
+        title={isLeftSidebarVisible ? "Hide Prompt Library" : "Show Prompt Library"}
       >
         <span className="material-symbols-outlined">library_books</span>
       </button>
       <button 
         className={`nav-button ${isRightSidebarVisible ? 'active' : ''}`}
         onClick={toggleRightSidebar}
-        title={isRightSidebarVisible ? "Hide right sidebar" : "Show right sidebar"}
+        title={isRightSidebarVisible ? "Hide Prompt Optimization" : "Show Prompt Optimization"}
       >
         <span className="material-symbols-outlined">preview</span>
       </button>

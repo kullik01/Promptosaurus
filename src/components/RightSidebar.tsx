@@ -4,7 +4,7 @@ import '@/styles/Sidebar.css';
 
 const RightSidebar: React.FC = () => {
   const { isRightSidebarVisible, hideRightSidebar } = useSidebar();
-  const [isMobileView, setIsMobileView] = useState(false);
+  const [, setIsMobileView] = useState(false);
   
   // Check if we're in mobile view
   useEffect(() => {
