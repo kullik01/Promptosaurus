@@ -2,9 +2,11 @@
  * Web Platform Service Implementation
  * 
  * This service implements the PlatformService interface for the web/PWA platform.
- * It uses browser APIs (localStorage) for data persistence operations.
+ * It uses browser APIs (localStorage) for data persistence operations and
+ * implements prompt formatting using the PWA module.
  */
 import { PlatformService } from './platformService';
+import { createPromptStyle } from '../../src-pwa';
 
 export class WebPlatformService implements PlatformService {
   /**
@@ -35,6 +37,37 @@ export class WebPlatformService implements PlatformService {
       return localStorage.getItem(this.STORAGE_KEY) || '';
     } catch (error) {
       console.error('Error loading data from localStorage:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Formats prompt data into a specific format using the PWA module's prompt styles
+   * @param data The prompt data to format
+   * @param format The format to convert to ('xml', 'markdown', 'yaml', 'json')
+   * @param order Optional array specifying the order of elements in the output
+   * @returns A promise that resolves with the formatted prompt string
+   */
+  async formatPrompt(data: Record<string, string>, format: string, order?: string[]): Promise<string> {
+    try {
+      const promptStyle = createPromptStyle(format);
+      return promptStyle.format(data, order);
+    } catch (error) {
+      console.error(`Error formatting prompt as ${format}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Copies text to the clipboard using the browser's Clipboard API
+   * @param text The text to copy to the clipboard
+   * @returns A promise that resolves when the text is copied
+   */
+  async copyToClipboard(text: string): Promise<void> {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (error) {
+      console.error('Error copying to clipboard:', error);
       throw error;
     }
   }

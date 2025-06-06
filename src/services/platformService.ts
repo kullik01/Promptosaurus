@@ -17,4 +17,20 @@ export interface PlatformService {
    * @returns A promise that resolves with the loaded data as a string
    */
   loadData(): Promise<string>;
+  
+  /**
+   * Formats prompt data into a specific format (XML, Markdown, YAML, JSON)
+   * @param data The prompt data to format
+   * @param format The format to convert to ('xml', 'markdown', 'yaml', 'json')
+   * @param order Optional array specifying the order of elements in the output
+   * @returns A promise that resolves with the formatted prompt string
+   */
+  formatPrompt(data: Record<string, string>, format: string, order?: string[]): Promise<string>;
+  
+  /**
+   * Copies text to the clipboard
+   * @param text The text to copy to the clipboard
+   * @returns A promise that resolves when the text is copied
+   */
+  copyToClipboard(text: string): Promise<void>;
 }
