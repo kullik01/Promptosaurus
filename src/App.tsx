@@ -4,7 +4,7 @@ import LeftSidebar from './components/LeftSidebar';
 import MainPanel from './components/MainPanel';
 import RightSidebar from './components/RightSidebar';
 import { SidebarProvider } from './store/SidebarContext';
-import '@/styles/App.css';
+import './styles/App.css';
 
 const App: React.FC = () => {
   return (

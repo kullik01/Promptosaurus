@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from '@/App';
-import '@/styles/global.css';
-import { registerServiceWorker, isTauriApp } from '@/registerSW';
+import App from './App';
+import './styles/global.css';
 
-// Register service worker for PWA support only when not running in Tauri
-if (!isTauriApp()) {
-  registerServiceWorker();
-}
+// createRoot(document.getElementById('root')!).render(
+//   <StrictMode>
+//     <App />
+//   </StrictMode>,
+// )
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

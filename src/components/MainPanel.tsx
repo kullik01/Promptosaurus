@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import '@/styles/MainPanel.css';
+import '../styles/MainPanel.css';
 import useAutoResizeTextarea from '../hooks/useAutoResizeTextarea';
 
 const MainPanel: React.FC = () => {
