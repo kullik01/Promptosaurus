@@ -40,11 +40,10 @@ fn process_input(input_map: HashMap<String, String>) -> Result<String, String> {
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_clipboard_manager::init())
         // Register commands from the lib module
         .invoke_handler(tauri::generate_handler![process_input])
-        .setup(|_app| {
-            Ok(())
-        })
+        .setup(|_app| Ok(()))
         .plugin(tauri_plugin_opener::init())
         .run(tauri::generate_context!())
         .expect("Error while running Promptosaurus application");

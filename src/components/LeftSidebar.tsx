@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSidebar } from '../store/SidebarContext';
-import '@/styles/Sidebar.css';
+import '../styles/Sidebar.css';
 
 const LeftSidebar: React.FC = () => {
   const { isLeftSidebarVisible, hideLeftSidebar } = useSidebar();

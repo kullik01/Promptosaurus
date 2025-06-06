@@ -1,6 +1,6 @@
 import React from 'react';
-import { useSidebar } from '@/store/SidebarContext';
-import '@/styles/Navbar.css';
+import { useSidebar } from '../store/SidebarContext';
+import '../styles/Navbar.css';
 
 const Navbar: React.FC = () => {
   const { 
