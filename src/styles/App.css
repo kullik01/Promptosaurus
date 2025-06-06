@@ -1,0 +1,100 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #fff;
+  border-radius: var(--border-radius-lg);
+}
+
+/* Header styles */
+.header {
+  display: flex;
+  height: 35px;
+  width: 100%;
+  border-bottom: 1px solid var(--color-border);
+  background-color: #f3f3f3;
+  align-items: center;
+  padding: 0 10px;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.file-menu {
+  display: flex;
+  gap: 15px;
+  font-size: 12px;
+}
+
+.menu-item {
+  cursor: pointer;
+}
+
+.header-center {
+  display: flex;
+  align-items: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.search-container {
+  padding: 4px;
+}
+
+.search-box {
+  position: relative;
+}
+
+.search-input {
+  padding: 6px 12px;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border);
+  font-size: 12px;
+  width: 100%;
+  box-shadow: var(--shadow-button);
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+  outline: none;
+}
+
+/* Content container */
+.content-container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  padding: 15px;
+  gap: 15px;
+  background-color: var(--color-background);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  /* Maintain horizontal layout */
+  .content-container {
+    flex-direction: row;
+  }
+  
+  /* Ensure main panel has enough space */
+  .main-panel {
+    flex: 1;
+  }
+  
+  /* Adjust navbar positioning for mobile */
+  .nav-buttons {
+    left: 5px;
+  }
+}
