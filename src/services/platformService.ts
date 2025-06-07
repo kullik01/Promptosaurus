@@ -6,19 +6,6 @@
  */
 export interface PlatformService {
   /**
-   * Saves data to persistent storage
-   * @param data The string data to save
-   * @returns A promise that resolves when the data is saved
-   */
-  saveData(data: string): Promise<void>;
-
-  /**
-   * Loads data from persistent storage
-   * @returns A promise that resolves with the loaded data as a string
-   */
-  loadData(): Promise<string>;
-  
-  /**
    * Formats prompt data into a specific format (XML, Markdown, YAML, JSON)
    * @param data The prompt data to format
    * @param format The format to convert to ('xml', 'markdown', 'yaml', 'json')

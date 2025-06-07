@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import '../styles/MainPanel.css';
 import useAutoResizeTextarea from '../hooks/useAutoResizeTextarea';
 import { usePlatform } from '../services/platformContext';
@@ -35,39 +35,10 @@ const MainPanel: React.FC = () => {
   useAutoResizeTextarea(contextTextareaRef);
   useAutoResizeTextarea(constraintsTextareaRef);
   
-  // Load saved data on component mount
-  useEffect(() => {
-    const loadSavedData = async () => {
-      try {
-        const savedData = await platformService.loadData();
-        if (savedData) {
-          const parsedData = JSON.parse(savedData);
-          setFormData(parsedData);
-          
-          // Update textarea values
-          if (roleTextareaRef.current) roleTextareaRef.current.value = parsedData.role || '';
-          if (taskTextareaRef.current) taskTextareaRef.current.value = parsedData.task || '';
-          if (contextTextareaRef.current) contextTextareaRef.current.value = parsedData.context || '';
-          if (constraintsTextareaRef.current) constraintsTextareaRef.current.value = parsedData.constraints || '';
-        }
-      } catch (error) {
-        console.error('Error loading saved data:', error);
-      }
-    };
-    
-    loadSavedData();
-  }, [platformService]);
-  
   // Handle input changes and save data
   const handleInputChange = async (field: keyof typeof formData, value: string) => {
     const updatedData = { ...formData, [field]: value };
     setFormData(updatedData);
-    
-    try {
-      await platformService.saveData(JSON.stringify(updatedData));
-    } catch (error) {
-      console.error('Error saving data:', error);
-    }
   };
   
   // Format and copy prompt to clipboard
