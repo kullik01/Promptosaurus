@@ -219,6 +219,25 @@ const MainPanel: React.FC<MainPanelProps> = ({ onLoadPromptDataReady, onPromptSa
     setShowNameInput(false);
   };
   
+  // Handle clearing the form
+  const handleClearForm = () => {
+    console.log('Clearing form data');
+    // Reset all form fields to empty strings
+    setFormData({
+      role: '',
+      task: '',
+      context: '',
+      constraints: ''
+    });
+    
+    // Show a notification (This needs to be discussed further)
+    // setNotification({
+    //   message: 'Form cleared successfully!',
+    //   type: 'info',
+    //   isVisible: true
+    // });
+  };
+
   // Close notification
   const handleCloseNotification = () => {
     setNotification(prev => ({ ...prev, isVisible: false }));
@@ -276,7 +295,10 @@ const MainPanel: React.FC<MainPanelProps> = ({ onLoadPromptDataReady, onPromptSa
         ></textarea>
       </div>
       <div className='utility-functionality'>
-        <button className="format-button">
+        <button 
+          className="format-button"
+          onClick={handleClearForm}
+        >
           Clear
         </button>
         <button 
