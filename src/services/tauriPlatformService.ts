@@ -49,4 +49,66 @@ export class TauriPlatformService implements PlatformService {
       throw error;
     }
   }
+
+  /**
+   * Saves a prompt to local storage using Tauri's filesystem API
+   * @param promptId The ID of the prompt to save, or undefined to create a new prompt
+   * @param name The name of the prompt
+   * @param data The prompt data to save
+   * @param description Optional description of the prompt
+   * @param categoryId Optional category ID for the prompt
+   * @param tags Optional tags for the prompt
+   * @returns A promise that resolves with the ID of the saved prompt
+   */
+  async savePrompt(
+    promptId: string | undefined, 
+    name: string, 
+    data: Record<string, string>, 
+    description?: string, 
+    categoryId?: string, 
+    tags?: string[]
+  ): Promise<string> {
+    // TODO: Implement using Tauri's filesystem API to save prompts to a JSON file
+    throw new Error('Method not implemented. Will be implemented in a future task.');
+  }
+
+  /**
+   * Gets a prompt by its ID from storage
+   * @param promptId The ID of the prompt to get
+   * @returns A promise that resolves with the prompt
+   */
+  async getPromptById(promptId: string): Promise<any> {
+    // TODO: Implement using Tauri's filesystem API to read prompts from a JSON file
+    throw new Error('Method not implemented. Will be implemented in a future task.');
+  }
+
+  /**
+   * Gets all prompts from storage, optionally filtered by category
+   * @param categoryId Optional category ID to filter by
+   * @returns A promise that resolves with an array of prompts
+   */
+  async getAllPrompts(categoryId?: string): Promise<any[]> {
+    // TODO: Implement using Tauri's filesystem API to read prompts from a JSON file
+    throw new Error('Method not implemented. Will be implemented in a future task.');
+  }
+
+  /**
+   * Deletes a prompt from storage
+   * @param promptId The ID of the prompt to delete
+   * @returns A promise that resolves when the prompt is deleted
+   */
+  async deletePrompt(promptId: string): Promise<void> {
+    // TODO: Implement using Tauri's filesystem API to update a JSON file
+    throw new Error('Method not implemented. Will be implemented in a future task.');
+  }
+
+  /**
+   * Searches for prompts by name
+   * @param searchTerm The search term to look for in prompt names
+   * @returns A promise that resolves with an array of matching prompts
+   */
+  async searchPrompts(searchTerm: string): Promise<any[]> {
+    // TODO: Implement using Tauri's filesystem API to read and filter prompts from a JSON file
+    throw new Error('Method not implemented. Will be implemented in a future task.');
+  }
 }
