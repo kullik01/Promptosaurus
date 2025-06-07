@@ -10,12 +10,14 @@ import Notification from './Notification';
 interface MainPanelProps {
   /** Optional callback to receive the loadPromptData function */
   onLoadPromptDataReady?: (loadFn: (data: Record<string, string>) => void) => void;
+  /** Optional callback to notify parent when a prompt is saved */
+  onPromptSaved?: () => void;
 }
 
 /**
  * MainPanel component displays the main form for creating and editing prompts
  */
-const MainPanel: React.FC<MainPanelProps> = ({ onLoadPromptDataReady }) => {
+const MainPanel: React.FC<MainPanelProps> = ({ onLoadPromptDataReady, onPromptSaved }) => {
   // Get platform service for data persistence
   const platformService = usePlatform();
   
@@ -69,11 +71,7 @@ const MainPanel: React.FC<MainPanelProps> = ({ onLoadPromptDataReady }) => {
     // Add null/undefined check before accessing data properties
     if (!data) {
       console.warn('Attempted to load null or undefined prompt data');
-      setNotification({
-        message: 'Failed to load prompt: No data available',
-        type: 'error',
-        isVisible: true
-      });
+      // Removed the notification for no prompt data available
       return;
     }
     
@@ -165,6 +163,10 @@ const MainPanel: React.FC<MainPanelProps> = ({ onLoadPromptDataReady }) => {
         type: 'success',
         isVisible: true
       });
+      // Notify parent component that a prompt has been saved
+      if (onPromptSaved) {
+        onPromptSaved();
+      }
     } catch (error) {
       console.error('Error saving prompt:', error);
       

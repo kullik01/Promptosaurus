@@ -6,7 +6,12 @@ import PromptCard from './PromptCard';
 import PromptDialog from './PromptDialog';
 import '../styles/Sidebar.css';
 
-const LeftSidebar: React.FC<{ onOpenPrompt: (data: Record<string, string>) => void }> = ({ onOpenPrompt }) => {
+interface LeftSidebarProps {
+  onOpenPrompt: (data: Record<string, string>) => void;
+  refreshTrigger: boolean;
+}
+
+const LeftSidebar: React.FC<LeftSidebarProps> = ({ onOpenPrompt, refreshTrigger }) => {
   const { isLeftSidebarVisible, hideLeftSidebar } = useSidebar();
   const platformService = usePlatform();
   // @ts-expect-error isMobileView is declared but its value is never read.
@@ -36,7 +41,7 @@ const LeftSidebar: React.FC<{ onOpenPrompt: (data: Record<string, string>) => vo
     if (isLeftSidebarVisible) {
       loadPrompts();
     }
-  }, [isLeftSidebarVisible, platformService]);
+  }, [isLeftSidebarVisible, platformService, refreshTrigger]);
   
   // Check if we're in mobile view
   useEffect(() => {

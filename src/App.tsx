@@ -13,10 +13,16 @@ import './styles/App.css';
 const App: React.FC = () => {
   // State to store the loadPromptData function from MainPanel
   const [loadPromptData, setLoadPromptData] = useState<((data: Record<string, string>) => void) | null>(null);
-  
+  const [refreshSidebar, setRefreshSidebar] = useState(false);
+
   // Callback to receive the loadPromptData function from MainPanel
   const handleLoadPromptDataReady = (loadFn: (data: Record<string, string>) => void) => {
     setLoadPromptData(loadFn);
+  };
+
+  // Callback to trigger sidebar refresh
+  const handlePromptSaved = () => {
+    setRefreshSidebar(prev => !prev);
   };
   return (
     <PlatformProvider>
@@ -30,12 +36,17 @@ const App: React.FC = () => {
           
           <div className="content-container">
             <Navbar/>
-            <LeftSidebar onOpenPrompt={loadPromptData || ((data) => {
-              console.warn('Attempted to open prompt before MainPanel was ready');
-              // Could add a global notification system here in the future
-              alert('Cannot open prompt at this time. Please try again.');
-            })} />
-            <MainPanel onLoadPromptDataReady={handleLoadPromptDataReady} />
+            <LeftSidebar
+              onOpenPrompt={loadPromptData || ((data) => {
+                console.warn('Attempted to open prompt before MainPanel was ready');
+                alert('Cannot open prompt at this time. Please try again.');
+              })}
+              refreshTrigger={refreshSidebar}
+            />
+            <MainPanel
+              onLoadPromptDataReady={handleLoadPromptDataReady}
+              onPromptSaved={handlePromptSaved}
+            />
             <RightSidebar/>
           </div>
         </div>
