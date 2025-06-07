@@ -75,7 +75,7 @@ const MainPanel: React.FC = () => {
     try {
       // Format the prompt using the platform service
       const formattedPrompt = await platformService.formatPrompt(formData, format);
-      
+      console.info('Formatted prompt:', formattedPrompt);
       // Copy to clipboard
       await platformService.copyToClipboard(formattedPrompt);
       
