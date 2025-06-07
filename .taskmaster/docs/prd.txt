@@ -1,0 +1,115 @@
+# Overview
+Promptosaurus is a professional prompt engineering and management tool. It helps users create, manage, and optimize prompts for AI systems. The primary goal is to provide a seamless experience for prompt engineers, whether they are using the application on the desktop or as a Progressive Web App (PWA).
+
+# Core Features
+- **Prompt Creation and Management:** Allow users to create new prompts, save them, and load existing ones.
+- **Prompt Element Customization:** Users can add custom elements to their prompts and create/load templates for prompt elements.
+- **Format Conversion:** Convert prompt elements between different formats (XML, YAML, JSON, Markdown).
+- **Token Estimation:** Provide an estimated token count for prompts.
+- **Organization:** Enable users to organize prompts using categories and tags.
+- **Optimization Suggestions:** Offer suggestions to optimize prompts for better performance with AI models.
+- **PWA Functionality:** Ensure the application is installable and runs as a standalone app on supported devices, with offline capabilities and responsive design for various screen sizes.
+
+# User Experience
+- **User Personas:**
+    - Prompt Engineers: Professionals who design and refine prompts for AI models.
+    - AI Developers: Developers integrating AI models who need to manage and test prompts.
+    - Content Creators: Individuals using AI for content generation who need an organized way to manage their prompts.
+- **Key User Flows:**
+    - Creating a new prompt from scratch.
+    - Importing/Loading an existing prompt.
+    - Adding/Editing/Removing prompt elements.
+    - Converting a prompt to a different format.
+    - Saving a prompt and its associated elements.
+    - Organizing prompts into categories.
+    - Accessing the application offline (PWA).
+- **UI/UX Considerations:**
+    - Intuitive and clean interface.
+    - Responsive design for desktop and mobile/tablet (PWA).
+    - Clear visual distinction between different sections (e.g., prompt editor, element library, format options).
+    - Easy navigation and discoverability of features.
+    - Consistent user experience between the desktop and PWA versions.
+
+# Technical Architecture
+- **Frontend Framework:** React with TypeScript.
+- **State Management:** React Context API (e.g., `SidebarContext`, `PlatformContext`).
+- **Styling:** CSS Modules or a similar approach for component-level styling (`App.css`, `MainPanel.css`, etc.), global styles (`global.css`).
+- **PWA Implementation:**
+    - Service Worker (`sw.ts`) for caching and offline functionality.
+    - Web App Manifest (`public/manifest.json`) for PWA properties and icons.
+    - Service worker registration (`src/registerSW.ts` - to be created if not existing, or confirm existing logic).
+    - Icons for various resolutions (`public/icons/`).
+- **Platform Abstraction Layer:**
+    - `PlatformService` interface (`src/services/platformService.ts`) defining common operations.
+    - `WebPlatformService` (`src/services/webPlatformService.ts`) for PWA-specific implementations using browser APIs.
+    - `PlatformContext` (`src/services/platformContext.tsx`) to provide the correct service implementation.
+- **Key UI Components:**
+    - `Navbar.tsx`: Top navigation bar.
+    - `LeftSidebar.tsx`: Sidebar for categories, prompt lists.
+    - `MainPanel.tsx`: Main content area for prompt editing and display.
+    - `RightSidebar.tsx`: Sidebar for format options, element details, optimization suggestions.
+    - `Notification.tsx`: For displaying alerts and messages.
+    - `PWABadge.tsx`: UI element to indicate PWA capabilities or prompt installation.
+- **Core Logic (TypeScript - src-pwa & src/utils, src/services):**
+    - Prompt formatting logic (`src-pwa/promptStyles.ts`) for XML, Markdown, YAML, JSON.
+    - Utility functions for platform detection, string manipulation, etc. (`src/utils/platformUtils.ts`).
+    - Service implementations for web-specific features.
+
+# Development Roadmap
+- **Phase 1: Prompt Element Management (React & TypeScript)**
+    - UI for adding, viewing, and selecting prompt elements.
+    - Logic for handling custom prompt elements.
+- **Phase 2: Saving and Loading Prompts (Web Platform Service)**
+    - Implement `WebPlatformService` methods for saving prompts (e.g., using IndexedDB for PWA).
+    - Implement `WebPlatformService` methods for loading saved prompts.
+    - UI for save/load operations.
+- **Phase 3: Categories and Tags (React & TypeScript)**
+    - UI in `LeftSidebar` for managing categories.
+    - Logic to associate prompts with categories and tags.
+    - Filtering prompts by category/tag.
+- **Phase 4: Advanced Features (React & TypeScript)**
+    - Implement token estimation logic.
+    - Develop and display prompt optimization suggestions.
+    - Implement prompt element content templates.
+
+# Logical Dependency Chain
+1.  **Basic App Shell (PWA & React):** Establish the main UI structure and PWA manifest/service worker foundations.
+2.  **Prompt Display:** Ability to show prompt text in the main panel.
+3.  **Format Selection UI:** Allow users to see and choose different formats.
+4.  **Format Conversion Logic Integration:** Connect UI to `promptStyles.ts` to dynamically change prompt format.
+5.  **Basic Prompt Editing:** Allow users to type and modify prompt text.
+6.  **Prompt Element Structure:** Define how prompt elements are represented and managed internally.
+7.  **Saving Prompts (PWA Storage):** Implement local storage for prompts.
+8.  **Loading Prompts (PWA Storage):** Retrieve and display saved prompts.
+9.  **Category Management:** UI and logic for organizing prompts.
+10. **Custom Prompt Elements:** Functionality to define and use custom elements.
+11. **Offline Capabilities:** Enhance service worker for full offline use of saved prompts and core features.
+12. **Advanced Features:** Token count, optimization, templates.
+
+# Risks and Mitigations
+- **PWA Compatibility:** Ensuring consistent behavior across different browsers and devices.
+    - Mitigation: Thorough testing on target browsers/devices. Adhere to PWA best practices.
+- **State Management Complexity:** Managing application state as features grow.
+    - Mitigation: Use React Context effectively, potentially explore more robust state management if needed for specific complex areas.
+- **Offline Data Sync (if future desktop sync is planned):** Complexity in syncing data between PWA local storage and a potential desktop/backend version.
+    - Mitigation: For now, focus on robust PWA-only storage. Design data structures with future sync in mind if it's a long-term goal.
+- **UI/UX for Diverse Prompt Structures:** Designing an interface that handles simple to very complex prompts gracefully.
+    - Mitigation: Iterative design and user feedback. Start with common use cases and expand.
+
+# Appendix
+- **Key Files for PWA Focus:**
+    - `public/manifest.json`
+    - `public/icons/*`
+    - `src/sw.ts` (or equivalent service worker file)
+    - `src/main.tsx` (for PWA registration)
+    - `src/App.tsx` (main application component)
+    - `src/services/webPlatformService.ts`
+    - `src/services/platformContext.tsx`
+    - `src-pwa/*` (core PWA-specific logic like `promptStyles.ts`)
+    - `src/components/*` (React UI components)
+    - `src/styles/*` (CSS styles)
+    - `src/types/index.ts` (TypeScript type definitions)
+- **Excluded from this PRD (Tauri/Rust specific):**
+    - `src-tauri/` directory contents (Cargo.toml, main.rs, etc.)
+    - `tauriPlatformService.ts` (though its interface via `PlatformService` is relevant for abstraction)
+    - Build configurations related to Tauri (`tauri.conf.json`, `build.rs`).
