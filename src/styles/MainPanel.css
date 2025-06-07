@@ -68,9 +68,14 @@
   outline: none;
 }
 
-.format-conversion {
-  margin-top: 40px;
+.utility-functionality {
+  display: flex;
+  gap: 10px;
+  margin-left: auto; 
+  margin-right: 0;
+  margin-bottom: 10px;
 }
+
 
 .format-conversion p {
   margin-bottom: 10px;
@@ -103,4 +108,36 @@
 .format-button:active {
   transform: translateY(0);
   box-shadow: var(--shadow-button);
+}
+
+/* Save button specific styles */
+.save-button {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.save-button:hover {
+  background-color: #0052cc;
+  border-color: #0052cc;
+  color: var(--color-white);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+
+/* Save prompt container styles */
+.save-prompt-container {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-background-light);
+}
+
+.save-actions {
+  display: flex;
+  gap: 10px;
 }

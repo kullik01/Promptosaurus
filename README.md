@@ -26,6 +26,7 @@ Prompt element template: A Prompt element template includes one Prompt element w
 - Estimate Prompt token count
 - Organize prompts by categories and tags
 - Prompt optimization suggestions
+- Import & Export prompt library
 
 ## Development Setup
 

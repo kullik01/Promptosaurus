@@ -1,0 +1,203 @@
+.prompt-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  
+  backdrop-filter: blur(2px);
+}
+
+.prompt-dialog {
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-hover);
+  border: 1px solid var(--color-border);
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: scale-in 0.2s ease-out;
+  overflow: hidden;
+}
+
+.prompt-dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-white);
+}
+
+.prompt-dialog-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-text);
+  line-height: 1.4;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--border-radius-full);
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  background-color: var(--color-background-hover);
+  color: var(--color-text);
+}
+
+.prompt-dialog-content {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  max-height: calc(90vh - 140px);
+}
+
+.prompt-element {
+  margin-bottom: 20px;
+}
+
+.prompt-element:last-child {
+  margin-bottom: 0;
+}
+
+.prompt-element h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--color-text);
+  line-height: 1.4;
+}
+
+.prompt-element p {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-text);
+  white-space: pre-wrap;
+  background-color: var(--color-background-hover);
+  padding: 12px;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border);
+  margin: 0;
+  word-wrap: break-word;
+}
+
+.prompt-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 15px 20px;
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-white);
+}
+
+.prompt-dialog-button {
+  padding: 8px 16px;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--border-radius-md);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-button);
+  min-width: 80px;
+}
+
+/* .prompt-dialog-button:hover:not(:disabled) {
+  background-color: #0052cc;
+  border-color: #0052cc;
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+
+.prompt-dialog-button:disabled {
+  background-color: var(--color-background-hover);
+  color: var(--color-text-secondary);
+  border-color: var(--color-border);
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+} */
+
+.open-button:hover {
+  background-color: #0052cc;
+  border-color: #0052cc;
+  color: var(--color-white);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+
+.cancel-button {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.cancel-button:hover {
+  background-color: var(--color-background-hover);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+
+.delete-button {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.delete-button:hover {
+  background-color: #d32f2f;
+  border-color: #d32f2f;
+  color: var(--color-white);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+
+@keyframes fade-in {
+  from { 
+    opacity: 0; 
+  }
+  to { 
+    opacity: 1; 
+  }
+}
+
+@keyframes fade-out {
+  from { 
+    opacity: 1; 
+  }
+  to { 
+    opacity: 0; 
+  }
+}
+
+@keyframes scale-in {
+  from { 
+    transform: scale(0.95) translateY(-10px); 
+    opacity: 0; 
+  }
+  to { 
+    transform: scale(1) translateY(0); 
+    opacity: 1; 
+  }
+}
