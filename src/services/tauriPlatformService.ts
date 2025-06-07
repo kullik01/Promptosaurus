@@ -11,33 +11,6 @@ import { PlatformService } from './platformService';
 
 export class TauriPlatformService implements PlatformService {
   /**
-   * Saves data using Tauri's invoke to call the Rust backend
-   * @param data The string data to save
-   * @returns A promise that resolves when the data is saved
-   */
-  async saveData(data: string): Promise<void> {
-    try {
-      await core.invoke('save_data', { content: data });
-    } catch (error) {
-      console.error('Error saving data via Tauri:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Loads data using Tauri's invoke to call the Rust backend
-   * @returns A promise that resolves with the loaded data as a string
-   */
-  async loadData(): Promise<string> {
-    try {
-      return await core.invoke<string>('load_data');
-    } catch (error) {
-      console.error('Error loading data via Tauri:', error);
-      throw error;
-    }
-  }
-
-  /**
    * Formats prompt data into a specific format using the Rust backend
    * @param data The prompt data to format
    * @param format The format to convert to ('xml', 'markdown', 'yaml', 'json')
