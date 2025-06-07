@@ -275,7 +275,17 @@ const MainPanel: React.FC<MainPanelProps> = ({ onLoadPromptDataReady, onPromptSa
           onChange={(e) => handleInputChange('constraints', e.target.value)}
         ></textarea>
       </div>
-      
+      <div className='utility-functionality'>
+        <button className="format-button">
+          Clear
+        </button>
+        <button 
+          className="format-button save-button"
+          onClick={handleSavePrompt}
+        >
+          Save
+        </button>
+      </div>
       <div className="format-conversion">
         <p>Convert prompt to</p>
         <div className="format-buttons">
@@ -302,12 +312,6 @@ const MainPanel: React.FC<MainPanelProps> = ({ onLoadPromptDataReady, onPromptSa
             onClick={() => handleFormatPrompt('json')}
           >
             JSON
-          </button>
-          <button 
-            className="format-button save-button" 
-            onClick={handleSavePrompt}
-          >
-            Save
           </button>
         </div>
 

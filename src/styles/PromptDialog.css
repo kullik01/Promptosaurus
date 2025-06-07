@@ -123,7 +123,7 @@
   min-width: 80px;
 }
 
-.prompt-dialog-button:hover:not(:disabled) {
+/* .prompt-dialog-button:hover:not(:disabled) {
   background-color: #0052cc;
   border-color: #0052cc;
   box-shadow: var(--shadow-hover);
@@ -137,6 +137,40 @@
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
+} */
+
+.open-button:hover {
+  background-color: #0052cc;
+  border-color: #0052cc;
+  color: var(--color-white);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+
+.cancel-button {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.cancel-button:hover {
+  background-color: var(--color-background-hover);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+
+.delete-button {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.delete-button:hover {
+  background-color: #d32f2f;
+  border-color: #d32f2f;
+  color: var(--color-white);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
 }
 
 @keyframes fade-in {

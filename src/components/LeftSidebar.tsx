@@ -28,21 +28,21 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   const [error, setError] = useState<string | null>(null);
   
   // Load saved prompts
+  const loadPrompts = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const savedPrompts = await platformService.getAllPrompts();
+      setPrompts(savedPrompts);
+    } catch (err) {
+      console.error('Error loading prompts:', err);
+      setError('Failed to load saved prompts');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const loadPrompts = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const savedPrompts = await platformService.getAllPrompts();
-        setPrompts(savedPrompts);
-      } catch (err) {
-        console.error('Error loading prompts:', err);
-        setError('Failed to load saved prompts');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    
     if (isLeftSidebarVisible) {
       loadPrompts();
     }
@@ -96,6 +96,22 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
   const handleDialogClose = () => {
     setSelectedPrompt(null);
   };
+
+  // Handle prompt deletion
+  const handleDeletePrompt = async (promptId: string) => {
+    try {
+      await platformService.deletePrompt(promptId);
+      // Remove the deleted prompt from the state
+      setPrompts(prevPrompts => prevPrompts.filter(p => p.id !== promptId));
+      // If the deleted prompt is currently selected, close the dialog
+      if (selectedPrompt && selectedPrompt.id === promptId) {
+        setSelectedPrompt(null);
+      }
+    } catch (err) {
+      console.error('Error deleting prompt:', err);
+      alert(`Failed to delete prompt: ${err}`);
+    }
+  };
   
   // If sidebar is not visible, don't render anything
   if (!isLeftSidebarVisible) {
@@ -140,7 +156,8 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
               <PromptCard 
                 key={prompt.id} 
                 prompt={prompt} 
-                onClick={handlePromptClick} 
+                onClick={handlePromptClick}
+                onDelete={handleDeletePrompt}
               />
             ))}
           </div>
@@ -153,6 +170,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({
         onClose={handleDialogClose} 
         onOpen={onOpenPrompt}
         isMainPanelReady={isMainPanelReady}
+        onDelete={handleDeletePrompt}
       />
     </div>
   );

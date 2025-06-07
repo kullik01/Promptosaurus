@@ -5,6 +5,7 @@ import '../styles/PromptCard.css';
 interface PromptCardProps {
   prompt: Prompt;
   onClick: (prompt: Prompt) => void;
+  onDelete?: (promptId: string) => void;
 }
 
 /**
@@ -12,8 +13,9 @@ interface PromptCardProps {
  * 
  * @param prompt The prompt to display
  * @param onClick Callback function when the card is clicked
+ * @param onDelete Optional callback function when the delete button is clicked
  */
-const PromptCard: React.FC<PromptCardProps> = ({ prompt, onClick }) => {
+const PromptCard: React.FC<PromptCardProps> = ({ prompt, onClick, onDelete }) => {
   // Get the first element content for preview
   const getPreviewContent = (): string => {
     if (!prompt.elements || prompt.elements.length === 0) {
@@ -40,10 +42,29 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onClick }) => {
     }
     return date.toLocaleDateString();
   };
+
+  // Handle delete button click
+  const handleDeleteClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent the card click event from firing
+    if (onDelete) {
+      onDelete(prompt.id);
+    }
+  };
   
   return (
     <div className="prompt-card" onClick={() => onClick(prompt)}>
-      <h3 className="prompt-card-title">{prompt.name}</h3>
+      <div className="prompt-card-header">
+        <h3 className="prompt-card-title">{prompt.name}</h3>
+        {onDelete && (
+          <button 
+            className="prompt-card-delete-button" 
+            onClick={handleDeleteClick}
+            aria-label="Delete prompt"
+          >
+            ×
+          </button>
+        )}
+      </div>
       <p className="prompt-card-preview">{getPreviewContent()}</p>
       <div className="prompt-card-footer">
         <span className="prompt-card-date">Updated: {formatDate(prompt.updatedAt)}</span>

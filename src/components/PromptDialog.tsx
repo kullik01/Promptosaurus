@@ -14,6 +14,8 @@ interface PromptDialogProps {
   onOpen: (data: Record<string, string>) => void;
   /** Whether the main panel is ready to receive prompt data */
   isMainPanelReady: boolean;
+  /** Optional callback when prompt is deleted */
+  onDelete?: (promptId: string) => void;
 }
 
 /**
@@ -23,7 +25,8 @@ const PromptDialog: React.FC<PromptDialogProps> = ({
   prompt, 
   onClose, 
   onOpen,
-  isMainPanelReady 
+  isMainPanelReady,
+  onDelete
 }) => {
   // State to track if dialog is visible
   const [isVisible, setIsVisible] = useState(true);
@@ -76,6 +79,22 @@ const PromptDialog: React.FC<PromptDialogProps> = ({
     }
   };
 
+  // Handle deleting the prompt
+  const handleDelete = () => {
+    if (!prompt) {
+      console.warn('Cannot delete prompt: No prompt selected');
+      return;
+    }
+
+    // Confirm deletion with the user
+    if (window.confirm(`Are you sure you want to delete the prompt "${prompt.name}"?`)) {
+      if (onDelete) {
+        onDelete(prompt.id);
+      }
+      handleClose();
+    }
+  };
+
   // If no prompt is selected, don't render anything
   if (!prompt) return null;
 
@@ -98,7 +117,21 @@ const PromptDialog: React.FC<PromptDialogProps> = ({
         
         <div className="prompt-dialog-actions">
           <button 
-            className="prompt-dialog-button" 
+            className="prompt-dialog-button cancel-button" 
+            onClick={handleClose}
+          >
+            Cancel
+          </button>
+          {onDelete && (
+            <button 
+              className="prompt-dialog-button delete-button" 
+              onClick={handleDelete}
+            >
+              Delete
+            </button>
+          )}
+          <button 
+            className="prompt-dialog-button open-button" 
             onClick={handleOpen}
             disabled={!isMainPanelReady}
             title={!isMainPanelReady ? "Main panel is not ready yet" : ""}

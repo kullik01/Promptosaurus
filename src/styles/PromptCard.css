@@ -15,14 +15,42 @@
   border-color: var(--color-primary-light);
 }
 
+.prompt-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
 .prompt-card-title {
   font-size: 14px;
   font-weight: 600;
-  margin-bottom: 6px;
   color: var(--color-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin: 0;
+  flex: 1;
+}
+
+.prompt-card-delete-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--border-radius-full);
+  transition: all 0.2s ease;
+}
+
+.prompt-card-delete-button:hover {
+  background-color: var(--color-border);
+  color: var(--color-text-primary);
 }
 
 .prompt-card-preview {
