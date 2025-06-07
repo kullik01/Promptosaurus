@@ -1,8 +1,9 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import '../styles/MainPanel.css';
 import useAutoResizeTextarea from '../hooks/useAutoResizeTextarea';
 import { usePlatform } from '../services/platformContext';
 import Notification from './Notification';
+import { recordToPromptElements } from '../../src-pwa/promptElements';
 
 /**
  * Props for the MainPanel component
@@ -20,6 +21,14 @@ interface MainPanelProps {
 const MainPanel: React.FC<MainPanelProps> = ({ onLoadPromptDataReady, onPromptSaved }) => {
   // Get platform service for data persistence
   const platformService = usePlatform();
+  
+  // Add debugging logs for component lifecycle
+  useEffect(() => {
+    console.log('MainPanel component mounted');
+    return () => {
+      console.log('MainPanel component unmounted');
+    };
+  }, []);
   
   // State for form data
   const [formData, setFormData] = useState({
@@ -65,22 +74,29 @@ const MainPanel: React.FC<MainPanelProps> = ({ onLoadPromptDataReady, onPromptSa
    * @param data - Record containing prompt element data
    */
   const loadPromptData = useCallback((data: Record<string, string>) => {
-    // Create a new form data object with the provided data
-    const newFormData = { ...formData };
-    
+    console.log('loadPromptData called with data:', data);
     // Add null/undefined check before accessing data properties
     if (!data) {
       console.warn('Attempted to load null or undefined prompt data');
-      // Removed the notification for no prompt data available
       return;
     }
     
-    // Update each field if it exists in the data
-    if (data.role !== undefined) newFormData.role = data.role;
-    if (data.task !== undefined) newFormData.task = data.task;
-    if (data.context !== undefined) newFormData.context = data.context;
-    if (data.constraints !== undefined) newFormData.constraints = data.constraints;
+    // Create a new form data object with the provided data
+    // Initialize with empty strings to clear any existing data
+    const newFormData = {
+      role: '',
+      task: '',
+      context: '',
+      constraints: ''
+    };
     
+    // Update each field if it exists in the data
+    if ('role' in data) newFormData.role = data.role;
+    if ('task' in data) newFormData.task = data.task;
+    if ('context' in data) newFormData.context = data.context;
+    if ('constraints' in data) newFormData.constraints = data.constraints;
+    
+    console.log('Setting formData to:', newFormData);
     // Update the form state
     setFormData(newFormData);
     
@@ -90,14 +106,23 @@ const MainPanel: React.FC<MainPanelProps> = ({ onLoadPromptDataReady, onPromptSa
       type: 'info',
       isVisible: true
     });
-  }, [formData]);
+  }, []);
   
   // Provide the loadPromptData function to the parent component
-  React.useEffect(() => {
+  useEffect(() => {
+    console.log('Setting up loadPromptData in parent component');
     if (onLoadPromptDataReady) {
-      onLoadPromptDataReady(loadPromptData);
+      console.log('Calling onLoadPromptDataReady with loadPromptData function');
+      // Create a stable reference to the function
+      const stableLoadPromptData = (data: Record<string, string>) => {
+        console.log('Stable loadPromptData called with data:', data);
+        loadPromptData(data);
+      };
+      
+      // Pass the stable function reference to the parent
+      onLoadPromptDataReady(stableLoadPromptData);
     }
-  }, [onLoadPromptDataReady, loadPromptData]);
+  }, []); // Empty dependency array to ensure this only runs once
   
   // Format and copy prompt to clipboard
   const handleFormatPrompt = async (format: string) => {
@@ -145,12 +170,21 @@ const MainPanel: React.FC<MainPanelProps> = ({ onLoadPromptDataReady, onPromptSa
     }
 
     try {
+      console.log('Saving prompt with name:', promptName);
+      console.log('Form data:', formData);
+      
+      // Convert the form data to prompt elements
+      const elements = recordToPromptElements(formData);
+      console.log('Converted to prompt elements:', elements);
+      
       // Save the prompt using the platform service
       await platformService.savePrompt(
         undefined, // No promptId means create a new prompt
         promptName,
-        formData,
-        '' // No description for now
+        elements,
+        '', // No description for now
+        undefined, // No category
+        undefined, // No tags
       );
       
       // Reset the name input
@@ -204,7 +238,7 @@ const MainPanel: React.FC<MainPanelProps> = ({ onLoadPromptDataReady, onPromptSa
           ref={roleTextareaRef}
           className="form-textarea" 
           placeholder="Enter role information"
-          defaultValue={formData.role}
+          value={formData.role}
           onChange={(e) => handleInputChange('role', e.target.value)}
         ></textarea>
       </div>
@@ -215,7 +249,7 @@ const MainPanel: React.FC<MainPanelProps> = ({ onLoadPromptDataReady, onPromptSa
           ref={taskTextareaRef}
           className="form-textarea" 
           placeholder="Enter task details"
-          defaultValue={formData.task}
+          value={formData.task}
           onChange={(e) => handleInputChange('task', e.target.value)}
         ></textarea>
       </div>
@@ -226,7 +260,7 @@ const MainPanel: React.FC<MainPanelProps> = ({ onLoadPromptDataReady, onPromptSa
           ref={contextTextareaRef}
           className="form-textarea" 
           placeholder="Enter context information"
-          defaultValue={formData.context}
+          value={formData.context}
           onChange={(e) => handleInputChange('context', e.target.value)}
         ></textarea>
       </div>
@@ -237,7 +271,7 @@ const MainPanel: React.FC<MainPanelProps> = ({ onLoadPromptDataReady, onPromptSa
           ref={constraintsTextareaRef}
           className="form-textarea" 
           placeholder="Enter constraints"
-          defaultValue={formData.constraints}
+          value={formData.constraints}
           onChange={(e) => handleInputChange('constraints', e.target.value)}
         ></textarea>
       </div>

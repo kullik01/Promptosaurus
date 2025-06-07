@@ -65,7 +65,7 @@ export class TauriPlatformService implements PlatformService {
     // @ts-expect-error is declared but its value is never read (due to being a stub for now)
     name: string, 
     // @ts-expect-error is declared but its value is never read (due to being a stub for now)
-    data: Record<string, string>, 
+    elements: PromptElement[],
     // @ts-expect-error is declared but its value is never read (due to being a stub for now)
     description?: string, 
     // @ts-expect-error is declared but its value is never read (due to being a stub for now)

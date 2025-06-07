@@ -1,3 +1,5 @@
+import { PromptElement } from '../../src-pwa';
+
 /**
  * Platform Service Interface
  * 
@@ -25,7 +27,7 @@ export interface PlatformService {
    * Saves a prompt to local storage
    * @param promptId The ID of the prompt to save, or undefined to create a new prompt
    * @param name The name of the prompt
-   * @param data The prompt data to save
+   * @param elements The prompt elements to save
    * @param description Optional description of the prompt
    * @param categoryId Optional category ID for the prompt
    * @param tags Optional tags for the prompt
@@ -34,7 +36,7 @@ export interface PlatformService {
   savePrompt(
     promptId: string | undefined, 
     name: string, 
-    data: Record<string, string>, 
+    elements: PromptElement[],
     description?: string, 
     categoryId?: string, 
     tags?: string[]

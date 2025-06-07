@@ -1,105 +1,108 @@
-import React from 'react';
-import { Prompt, promptElementsToRecord } from '../../src-pwa';
-import { usePlatform } from '../services/platformContext';
-import '../styles/PromptDialog.css';
+import React, { useState } from "react";
+import "../styles/PromptDialog.css";
+import { Prompt, PromptElement, promptElementsToRecord } from "../../src-pwa/promptElements";
 
+/**
+ * Props for the PromptDialog component
+ */
 interface PromptDialogProps {
+  /** The prompt to display */
   prompt: Prompt | null;
+  /** Callback when dialog is closed */
   onClose: () => void;
+  /** Callback when prompt is opened */
   onOpen: (data: Record<string, string>) => void;
+  /** Whether the main panel is ready to receive prompt data */
+  isMainPanelReady: boolean;
 }
 
 /**
- * A dialog component that displays the full content of a prompt
- * 
- * @param prompt The prompt to display, or null if no prompt is selected
- * @param onClose Callback function when the dialog is closed
- * @param onOpen Callback function when the "Open" button is clicked
+ * Dialog component for displaying prompt details and actions
  */
-const PromptDialog: React.FC<PromptDialogProps> = ({ prompt, onClose, onOpen }) => {
-  const platformService = usePlatform();
+const PromptDialog: React.FC<PromptDialogProps> = ({ 
+  prompt, 
+  onClose, 
+  onOpen,
+  isMainPanelReady 
+}) => {
+  // State to track if dialog is visible
+  const [isVisible, setIsVisible] = useState(true);
   
-  if (!prompt) {
-    return null;
-  }
-  
-  // Handle copy button click
-  const handleCopy = async () => {
-    try {
-      if (!prompt || !prompt.elements || prompt.elements.length === 0) {
-        throw new Error('No prompt data available to copy');
-      }
-      
-      // Convert prompt elements to record format
-      const promptData = promptElementsToRecord(prompt.elements);
-      
-      // Format the prompt as markdown
-      const formattedPrompt = await platformService.formatPrompt(promptData, 'markdown');
-      
-      // Copy to clipboard
-      await platformService.copyToClipboard(formattedPrompt);
-      
-      // Show a temporary message (could use a notification component here)
-      alert('Prompt copied to clipboard!');
-    } catch (error) {
-      console.error('Error copying prompt:', error);
-      alert(`Failed to copy prompt to clipboard: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    }
+  // Add debugging logs for component props
+  React.useEffect(() => {
+    console.log('PromptDialog rendered with props:', { 
+      promptId: prompt?.id, 
+      promptName: prompt?.name,
+      isMainPanelReady 
+    });
+  }, [prompt, isMainPanelReady]);
+
+  // Handle dialog close
+  const handleClose = () => {
+    setIsVisible(false);
+    // Delay actual close to allow animation
+    setTimeout(() => {
+      onClose();
+    }, 300);
   };
-  
-  // Handle open button click
+
+  // Handle opening the prompt in the main panel
   const handleOpen = () => {
+    console.log('Open button clicked, isMainPanelReady:', isMainPanelReady);
+    if (!isMainPanelReady) {
+      console.warn('Cannot open prompt: Main panel is not ready');
+      alert('Cannot open prompt at this time. Please try again in a moment.');
+      return;
+    }
+    
+    if (!prompt) {
+      console.warn('Cannot open prompt: No prompt selected');
+      return;
+    }
+    
     try {
-      if (!prompt || !prompt.elements || prompt.elements.length === 0) {
-        throw new Error('No prompt data available to open');
-      }
-      
-      // Convert prompt elements to record format and pass to parent component
+      // Convert prompt elements to a record for the main panel
       const promptData = promptElementsToRecord(prompt.elements);
+      console.log('Converted prompt data:', promptData);
       
-      // Verify promptData has required fields before opening
-      if (!promptData || Object.keys(promptData).length === 0) {
-        throw new Error('Prompt data is empty or invalid');
-      }
-      
+      // Call the onOpen callback with the prompt data
       onOpen(promptData);
-      onClose(); // Close the dialog after opening
+      
+      // Close the dialog
+      handleClose();
     } catch (error) {
       console.error('Error opening prompt:', error);
-      alert(`Failed to open prompt: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      alert(`Error opening prompt: ${error}`);
     }
   };
-  
+
+  // If no prompt is selected, don't render anything
+  if (!prompt) return null;
+
   return (
-    <div className="prompt-dialog-overlay" onClick={onClose}>
+    <div className={`prompt-dialog-overlay ${isVisible ? 'visible' : 'hidden'}`} onClick={handleClose}>
       <div className="prompt-dialog" onClick={(e) => e.stopPropagation()}>
         <div className="prompt-dialog-header">
-          <h2 className="prompt-dialog-title">{prompt.name}</h2>
-          <button className="prompt-dialog-close" onClick={onClose}>×</button>
+          <h2>{prompt.name}</h2>
+          <button className="close-button" onClick={handleClose}>×</button>
         </div>
         
-        {prompt.description && (
-          <div className="prompt-dialog-description">
-            {prompt.description}
-          </div>
-        )}
-        
         <div className="prompt-dialog-content">
-          {prompt.elements.map((element) => (
-            <div key={element.id} className="prompt-dialog-element">
-              <h3 className="prompt-dialog-element-title">{element.name}</h3>
-              <div className="prompt-dialog-element-content">
-                {element.content}
-              </div>
+          {prompt.elements.map((element: PromptElement) => (
+            <div key={element.id} className="prompt-element">
+              <h3>{element.name}</h3>
+              <p>{element.content}</p>
             </div>
           ))}
         </div>
         
-        <div className="prompt-dialog-footer">
-          <button className="prompt-dialog-button" onClick={handleCopy}>
-            Copy
-          </button>
-          <button className="prompt-dialog-button primary" onClick={handleOpen}>
+        <div className="prompt-dialog-actions">
+          <button 
+            className="prompt-dialog-button" 
+            onClick={handleOpen}
+            disabled={!isMainPanelReady}
+            title={!isMainPanelReady ? "Main panel is not ready yet" : ""}
+          >
             Open
           </button>
         </div>

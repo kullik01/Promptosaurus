@@ -6,7 +6,7 @@
  * implements prompt formatting using the PWA module.
  */
 import { PlatformService } from './platformService';
-import { createPromptStyle, createPrompt, recordToPromptElements, Prompt } from '../../src-pwa';
+import { createPromptStyle, createPrompt, PromptElement, Prompt } from '../../src-pwa';
 
 // Database configuration
 const DB_NAME = 'promptosaurus-db';
@@ -136,23 +136,21 @@ export class WebPlatformService implements PlatformService {
    */
   async savePrompt(
     promptId: string | undefined, 
-    name: string, 
-    data: Record<string, string>, 
-    description?: string, 
-    categoryId?: string, 
+    name: string,
+    elements: PromptElement[],
+    description?: string,
+    categoryId?: string,
     tags?: string[]
   ): Promise<string> {
+    console.log('WebPlatformService.savePrompt called with:', { name, elements, promptId });
     try {
-      // Convert the record data to prompt elements
-      const elements = recordToPromptElements(data);
-      
-      // Create or update the prompt
       let prompt: Prompt;
       
       if (promptId) {
         // Try to get the existing prompt first
         try {
           const existingPrompt = await this.getPromptById(promptId);
+          console.log('Found existing prompt:', existingPrompt);
           
           // Update the existing prompt
           prompt = {
@@ -171,11 +169,13 @@ export class WebPlatformService implements PlatformService {
         }
       } else {
         // Create a new prompt
+        console.log('Creating new prompt');
         prompt = createPrompt(name, elements, description, categoryId, tags);
       }
       
       // Save the prompt to IndexedDB
       const db = await openDatabase();
+      console.log('Database opened for saving prompt');
       
       return new Promise<string>((resolve, reject) => {
         const transaction = db.transaction([PROMPTS_STORE], 'readwrite');
@@ -184,15 +184,19 @@ export class WebPlatformService implements PlatformService {
         const request = store.put(prompt);
         
         request.onsuccess = () => {
+          console.log('Prompt saved successfully with ID:', prompt.id);
           resolve(prompt.id);
         };
         
         request.onerror = (event) => {
-          reject(new Error(`Error saving prompt: ${(event.target as IDBRequest).error}`));
+          const error = `Error saving prompt: ${(event.target as IDBRequest).error}`;
+          console.error(error);
+          reject(new Error(error));
         };
         
         transaction.oncomplete = () => {
           db.close();
+          console.log('Database transaction completed and closed');
         };
       });
     } catch (error) {
@@ -207,7 +211,9 @@ export class WebPlatformService implements PlatformService {
    * @returns A promise that resolves with the prompt
    */
   async getPromptById(promptId: string): Promise<Prompt> {
+    console.log('WebPlatformService.getPromptById called with ID:', promptId);
     const db = await openDatabase();
+    console.log('Database opened for getting prompt by ID');
     
     return new Promise<Prompt>((resolve, reject) => {
       const transaction = db.transaction([PROMPTS_STORE], 'readonly');
@@ -219,18 +225,24 @@ export class WebPlatformService implements PlatformService {
         const prompt = (event.target as IDBRequest).result as Prompt;
         
         if (prompt) {
+          console.log('Found prompt by ID:', prompt);
           resolve(prompt);
         } else {
-          reject(new Error(`Prompt with ID ${promptId} not found`));
+          const error = `Prompt with ID ${promptId} not found`;
+          console.error(error);
+          reject(new Error(error));
         }
       };
       
       request.onerror = (event) => {
-        reject(new Error(`Error getting prompt: ${(event.target as IDBRequest).error}`));
+        const error = `Error getting prompt: ${(event.target as IDBRequest).error}`;
+        console.error(error);
+        reject(new Error(error));
       };
       
       transaction.oncomplete = () => {
         db.close();
+        console.log('Database transaction completed and closed');
       };
     });
   }
@@ -241,7 +253,9 @@ export class WebPlatformService implements PlatformService {
    * @returns A promise that resolves with an array of prompts
    */
   async getAllPrompts(categoryId?: string): Promise<Prompt[]> {
+    console.log('WebPlatformService.getAllPrompts called with categoryId:', categoryId);
     const db = await openDatabase();
+    console.log('Database opened for getting all prompts');
     
     return new Promise<Prompt[]>((resolve, reject) => {
       const transaction = db.transaction([PROMPTS_STORE], 'readonly');
@@ -251,24 +265,30 @@ export class WebPlatformService implements PlatformService {
       
       if (categoryId) {
         // Use the categoryId index to filter prompts
+        console.log('Using categoryId index to filter prompts');
         const index = store.index('categoryId');
         request = index.getAll(categoryId);
       } else {
         // Get all prompts
+        console.log('Getting all prompts');
         request = store.getAll();
       }
       
       request.onsuccess = (event) => {
         const prompts = (event.target as IDBRequest).result as Prompt[];
+        console.log(`Found ${prompts.length} prompts:`, prompts);
         resolve(prompts);
       };
       
       request.onerror = (event) => {
-        reject(new Error(`Error getting prompts: ${(event.target as IDBRequest).error}`));
+        const error = `Error getting prompts: ${(event.target as IDBRequest).error}`;
+        console.error(error);
+        reject(new Error(error));
       };
       
       transaction.oncomplete = () => {
         db.close();
+        console.log('Database transaction completed and closed');
       };
     });
   }

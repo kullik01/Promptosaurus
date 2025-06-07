@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSidebar } from '../store/SidebarContext';
 import { usePlatform } from '../services/platformContext';
-import { Prompt } from 'src-pwa';
+import { Prompt } from "../../src-pwa/promptElements";
 import PromptCard from './PromptCard';
 import PromptDialog from './PromptDialog';
 import '../styles/Sidebar.css';
@@ -9,9 +9,14 @@ import '../styles/Sidebar.css';
 interface LeftSidebarProps {
   onOpenPrompt: (data: Record<string, string>) => void;
   refreshTrigger: boolean;
+  isMainPanelReady?: boolean;
 }
 
-const LeftSidebar: React.FC<LeftSidebarProps> = ({ onOpenPrompt, refreshTrigger }) => {
+const LeftSidebar: React.FC<LeftSidebarProps> = ({ 
+  onOpenPrompt, 
+  refreshTrigger, 
+  isMainPanelReady = false 
+}) => {
   const { isLeftSidebarVisible, hideLeftSidebar } = useSidebar();
   const platformService = usePlatform();
   // @ts-expect-error isMobileView is declared but its value is never read.
@@ -147,6 +152,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ onOpenPrompt, refreshTrigger 
         prompt={selectedPrompt} 
         onClose={handleDialogClose} 
         onOpen={onOpenPrompt}
+        isMainPanelReady={isMainPanelReady}
       />
     </div>
   );
