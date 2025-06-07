@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA} from "vite-plugin-pwa";
 
-// @ts-expect-error process is a nodejs global
+
 const host = process.env.TAURI_DEV_HOST;
 // @ts-expect-error process is a nodejs global
 const isTauri: boolean = process.env.TAURI_DEBUG || process.env.TAURI;
@@ -68,13 +68,10 @@ export default defineConfig({
     },
     build: {
       // Tauri supports es2021
-      // @ts-expect-error process is a nodejs global
       target: process.env.TAURI_PLATFORM == "windows" ? "chrome105" : "safari13",
       // don't minify for debug builds
-      // @ts-expect-error process is a nodejs global
       minify: !process.env.TAURI_DEBUG ? "esbuild" : false,
       // produce sourcemaps for debug builds
-      // @ts-expect-error process is a nodejs global
       sourcemap: !!process.env.TAURI_DEBUG,
     },
   })

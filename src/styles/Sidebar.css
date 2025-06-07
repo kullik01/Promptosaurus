@@ -170,6 +170,28 @@
   overflow-y: auto;
 }
 
+/* Prompt list styles */
+.prompt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Loading, error, and empty states */
+.prompt-loading,
+.prompt-error,
+.prompt-empty {
+  padding: 16px;
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+.prompt-error {
+  color: var(--color-error);
+}
+
 /* Category section styling */
 .category-section {
   display: flex;

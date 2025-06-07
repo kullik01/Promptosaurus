@@ -6,7 +6,7 @@
  * implements prompt formatting using the PWA module.
  */
 import { PlatformService } from './platformService';
-import { createPromptStyle, createPrompt, recordToPromptElements, Prompt } from 'src-pwa';
+import { createPromptStyle, createPrompt, recordToPromptElements, Prompt } from '../../src-pwa';
 
 // Database configuration
 const DB_NAME = 'promptosaurus-db';
